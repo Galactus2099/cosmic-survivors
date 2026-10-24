@@ -48,7 +48,7 @@ const G={
 G.Sprites.Animator.prototype.draw=function(){};
 const math=Object.create(Math);math.random=()=>0;
 const window={G,CosmicHalloween:{state(){return {waves:wave!==null,round:wave}}}};
-const ctx={window,G,document,Math:math,console,performance:{now(){return 2000}},setTimeout(){return 1},clearTimeout(){},setInterval(){return 1},clearInterval(){}};
+const ctx={window,G,document,Math:math,console,performance:{now(){return 2000}},setTimeout(fn){fn();return 1},clearTimeout(){},setInterval(){return 1},clearInterval(){}};
 vm.runInNewContext(fs.readFileSync('classic/js/mods/mega-evolution.js','utf8'),ctx,{filename:'mega-evolution.js'});
 const addon=window.CosmicMega;
 assert.equal(addon.eligible(6),true);
