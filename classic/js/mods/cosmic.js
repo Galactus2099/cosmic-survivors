@@ -1,5 +1,5 @@
 /* Cosmic Survivors - Classic cosmetic extension. No dependencies.
-   Adds player-only skins, a Halloween lantern quest and experimental Mega Mode. */
+   Adds player-only skins and Halloween lanterns; Mega is handled in-run. */
 (() => {
   'use strict';
   const SKINS = [
@@ -20,7 +20,7 @@
   function money(){return Number(save.lanterns)||0;}
   function installed(){return !!(window.G&&G.Player&&G.Sprites&&G.Sprites.Animator);}
   function notify(msg){ const e=document.getElementById('cosmic-toast');if(!e)return;e.textContent=msg;e.classList.add('show');clearTimeout(notify.t);notify.t=setTimeout(()=>e.classList.remove('show'),2300); }
-  function chosenMega(){return !!save.mega[currentDex()]&&MEGA_DEX.has(currentDex());}
+  function chosenMega(){return false;}
 
   function skinEffect(ctx,a,x,y) {
     if(!a.cosmicPlayer) return;
@@ -51,11 +51,6 @@
         super(...args);
         if(this.anim) this.anim.cosmicPlayer=true;
         this.cosmicLastLanternKills=0;
-        if(chosenMega()){
-          this.cosmicMega=true;
-          this.maxHp=Math.round(this.maxHp*1.25);this.hp=this.maxHp;
-          this.atkMul*=1.22;this.spdMul*=1.08;
-        }
       }
     };
     G.Player.__cosmicWrapped=true;
@@ -84,7 +79,7 @@
   function menu(){
     const overlay=document.createElement('div');
     overlay.id='cosmic-overlay';
-    overlay.innerHTML='<div class="cosmic-panel" role="dialog" aria-modal="true" aria-label="Cosmic wardrobe"><button id="cosmic-close" aria-label="Close">✕</button><div class="cosmic-kicker">COSMIC SURVIVORS · FAN MOD</div><h2>Variants & Halloween</h2><p>Change your current partner\'s look. Spend Spirit Lanterns earned from every 25 enemies defeated during a run.</p><div class="cosmic-stats"></div><div class="cosmic-grid" id="cosmic-skin-grid"></div><div class="cosmic-mega" id="cosmic-mega"></div><div class="cosmic-event" id="cosmic-event"></div><p class="cosmic-footnote">Visual effects are procedural sprite recolors, not bespoke sprite sheets. Mega Mode is an experimental stat boost/aura; genuine Mega species art and transformation sequences are not yet included. Saves are local to this browser.</p></div>';
+    overlay.innerHTML='<div class="cosmic-panel" role="dialog" aria-modal="true" aria-label="Cosmic wardrobe"><button id="cosmic-close" aria-label="Close">✕</button><div class="cosmic-kicker">COSMIC SURVIVORS · FAN MOD</div><h2>Variants & Halloween</h2><p>Change your current partner\'s look. Spend Spirit Lanterns earned from every 25 enemies defeated during a run.</p><div class="cosmic-stats"></div><div class="cosmic-grid" id="cosmic-skin-grid"></div><div class="cosmic-mega" id="cosmic-mega"></div><div class="cosmic-event" id="cosmic-event"></div><p class="cosmic-footnote">Visual effects are procedural sprite recolors, not bespoke sprite sheets. Mega now appears as a rare mid-run Unique card; authentic alternate Mega sprite sheets remain future work. Saves are local to this browser.</p></div>';
     document.body.appendChild(overlay);
     const button=document.createElement('button');
     button.id='cosmic-open';button.textContent='✦ Cosmic Wardrobe / Halloween';
@@ -114,10 +109,9 @@
       grid.appendChild(el);
     }
     const mega=root.querySelector('#cosmic-mega');
-    if(MEGA_DEX.has(dex)){
-      mega.innerHTML='<div><b>✨ Mega Mode (prototype)</b><p>Boosts max HP +25%, damage +22%, speed +8% when a run starts. A new run is required after changing.</p></div><button id="cosmic-mega-toggle">'+(chosenMega()?'✓ Mega ON':'Enable Mega Mode')+'</button>';
-      mega.querySelector('button').onclick=()=>{save.mega[dex]=!chosenMega();persist();render();notify('Mega Mode changed — start a new run');};
-    }else{mega.innerHTML='<span>✨ Mega Mode unlocks for compatible fully evolved Pokémon (for example Charizard, Blastoise, Gengar, Lucario and Mewtwo).</span>';}
+    if(MEGA_DEX.has(dex) || [382,383,888,889].includes(dex)){
+      mega.innerHTML='<div><b>✨ Mega Capable</b><p>Unlock a rare transformation card after 30 minutes in Classic solo or from Wave 20 in Waves. Earn the upgrade during your run; no pre-run toggle is needed.</p></div>';
+    }else{mega.innerHTML='<span>✨ Mega Evolution is available for compatible final-stage Pokémon. Try Charizard, Mewtwo, Gengar, Lucario, Kyogre or Groudon.</span>';}
     root.querySelector('#cosmic-event').innerHTML='<h3>🎃 Haunting of the Rift</h3><p>Halloween event collection: defeat enemies in a dungeon to earn Spirit Lanterns, then unlock Gold, Prismatic, Galaxy and Crimson Nebula appearances. This event stays available so you can earn cosmetics year-round.</p>';
   }
   function start(){

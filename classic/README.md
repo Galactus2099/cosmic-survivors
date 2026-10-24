@@ -1,4 +1,4 @@
-# Cosmic Survivors Classic — Halloween & Waves (Fan Prototype)
+# Cosmic Survivors Classic — Mega Evolution + Halloween & Waves (Fan Prototype)
 
 This is an independent, noncommercial fan-game build based on the **PokéSurvivor MIT-era engine** by JPTER78 (immutable revision `b29708900da26b34e70d2dc07ad1659a719f4a78`, October 14, 2026).
 
@@ -14,13 +14,13 @@ Open https://galactus2099.github.io/cosmic-survivors/classic/ and sign in with a
 4. Earn **1 Candy Corn per 10 kills** in **both** Classic and Waves, plus bonus Candy Corn for cleared waves.
 5. Your **🎃 Candy Corn** total is displayed in the Waves HUD. From the main menu, click **🎃 Halloween Shop** to spend it.
 6. Shop rewards include Haunted Menu, Pumpkin Aura, Spectral Trail, Shadow Mewtwo and Shadow Lugia packs. Both packs unlock their base Pokémon and add a special aura; equip the existing Shadow tint in **Cosmic Wardrobe**.
-7. The prior **Cosmic Wardrobe**, Spirit Lantern cosmetics, and experimental Mega Mode remain available.
+7. The **Cosmic Wardrobe** and Spirit Lantern cosmetics remain available. **The pre-run Mega toggle has been retired** in favor of a rare in-run **Mega Evolution Unique card**. For eligible partners, the first chance appears at 30 minutes in regular solo runs, or from wave 20 in Waves. Charizard and Mewtwo have X/Y variants; Kyogre and Groudon have Primal forms, and Zacian/Zamazenta have Crowned forms. Once picked, the transformation's HP/damage/speed/cooldown buffs last for that run. A golden **Mega Capable** label appears on the partner menu.
 
 Candy Corn and purchases are saved within your local game account using the existing local save system. **Guest saves are temporary.** Halloween Mode stays available year-round.
 
 ## Current limitations (important)
 
-This adds a functional *original adaptation* of Waves, not a full recreation of all Doofcraft additions. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, unique Shadow Mewtwo/Lugia species artwork, or the finished Mega/Primal/Crowned transformation sprites or Rare Unique card progression. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
+This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
 
 Online multiplayer, leaderboards, and cloud accounts remain disconnected from the original creator's services. The two fan-game routes are separate: `/` is the earlier Cosmic Survivors game and `/classic/` is the original-style engine + new extras.
 
