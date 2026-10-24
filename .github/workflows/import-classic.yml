@@ -1,0 +1,115 @@
+name: Import MIT-era PokéSurvivor into Classic preview
+
+on:
+  push:
+    branches: [feature/classic-fan-build]
+    paths:
+      - '.github/workflows/import-classic.yml'
+      - 'classic-mods/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-classic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout separate Cosmic Survivors branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/classic-fan-build
+          fetch-depth: 1
+
+      - name: Fetch verified historic game revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/historic-pokesurvivor
+          git -C /tmp/historic-pokesurvivor init
+          git -C /tmp/historic-pokesurvivor remote add origin https://github.com/JPTER78/pokesurvivor.git
+          git -C /tmp/historic-pokesurvivor -c protocol.version=2 fetch --depth=1 origin b29708900da26b34e70d2dc07ad1659a719f4a78
+          git -C /tmp/historic-pokesurvivor checkout --detach FETCH_HEAD
+          test "$(git -C /tmp/historic-pokesurvivor rev-parse HEAD)" = "b29708900da26b34e70d2dc07ad1659a719f4a78"
+
+      - name: Assemble playable fork with classic gameplay and cosmetic extensions
+        shell: bash
+        run: |
+          set -euo pipefail
+          U=/tmp/historic-pokesurvivor
+          mkdir -p classic/assets classic/js/mods classic/css
+          cp -a "$U/js/." classic/js/
+          cp -a "$U/css/." classic/css/
+          cp -a "$U/assets/." classic/assets/
+          cp "$U/dev.html" classic/index.html
+          cp "$U/LICENSE" classic/LICENSE
+          cp "$U/CREDITS.md" classic/CREDITS.md
+          cp "$U/manifest.webmanifest" classic/manifest.webmanifest
+          cp "$U/favicon.ico" classic/favicon.ico
+          cp classic-mods/cosmic.js classic/js/mods/cosmic.js
+          cp classic-mods/cosmic.css classic/css/cosmic.css
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('classic/index.html')
+          h=p.read_text(encoding='utf-8')
+          h=h.replace('PokéSurvivor','Cosmic Survivors Classic')
+          h=h.replace('pokesurvivor.com','galactus2099.github.io/cosmic-survivors/classic')
+          old='<script defer src="js/main.js"></script>'
+          assert old in h, 'Upstream entry point has changed'
+          h=h.replace(old,'<script defer src="js/mods/cosmic.js"></script>\n'+old)
+          h=h.replace('</head>','<link rel="stylesheet" href="css/cosmic.css">\n</head>')
+          p.write_text(h,encoding='utf-8')
+          # NEVER connect this independent fork to the original creator's Firebase.
+          Path('classic/js/core/firebase-config.js').write_text('/* Local-only independent noncommercial fork. */\nG.FIREBASE_CONFIG = null;\n',encoding='utf-8')
+          # Disable registration of upstream service worker on our domain.
+          p=Path('classic/js/main.js')
+          js=p.read_text(encoding='utf-8')
+          js=js.replace("if ('serviceWorker' in navigator && location.protocol.startsWith('http'))",
+                        "if (false && 'serviceWorker' in navigator && location.protocol.startsWith('http'))")
+          p.write_text(js,encoding='utf-8')
+          html=Path('classic/index.html').read_text()
+          scripts=re.findall(r'<script defer src="([^"]+)"',html)
+          missing=[s for s in scripts if not (Path('classic')/s.split('?')[0]).is_file()]
+          assert not missing, f'Missing game scripts: {missing}'
+          assert len(scripts)>40
+          assert Path('classic/assets/pokemon/1/Idle.png').is_file()
+          assert Path('classic/CREDITS.md').is_file()
+          print('Verified',len(scripts),'scripts, source sprites, and credits')
+          Path('classic/README.md').write_text(
+            '# Cosmic Survivors Classic — noncommercial fan test\n\n'
+            'Based on PokéSurvivor by JPTER78, immutable MIT-era revision b29708900da26b34e70d2dc07ad1659a719f4a78 (October 14, 2026).\n\n'
+            'Original copyright and MIT engine terms are in LICENSE; '
+            'SpriteCollab artist attributions are in CREDITS.md. '
+            'Third-party sprites have CC BY-NC 4.0 licensing and Pokémon '
+            'characters/trademarks belong to their respective owners. '
+            'This is a noncommercial unofficial fan prototype.\n\n'
+            'Original game systems are maintained. Account backend and online '
+            'multiplayer are not connected to the original author; create a '
+            'local account for local-only saved progress.\n\n'
+            'Open /classic/ to play. Use the Cosmic Wardrobe button to equip '
+            'Shadow, Gold, Prismatic, Galaxy and Crimson Nebula visual filters, '
+            'earn Spirit Lanterns for 25 enemy defeats, and try experimental '
+            'Mega Mode (stat bonuses and aura, not yet species-specific Mega sprites).\n\n'
+            'Changes remain isolated from Nightfall and the current Cosmic '
+            'Survivors homepage.\n',encoding='utf-8')
+          PY
+
+      - name: Syntax-check extension and game scripts
+        run: |
+          node --check classic/js/mods/cosmic.js
+          node --check classic/js/main.js
+          node --check classic/js/core/sprites.js
+
+      - name: Commit the preview into its feature branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add classic
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat: add independent classic PokéSurvivor fan build and variant prototype'
+            git push origin HEAD:feature/classic-fan-build
+          fi
