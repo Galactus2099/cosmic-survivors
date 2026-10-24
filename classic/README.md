@@ -70,6 +70,31 @@ The attachments use each animation's foot-anchor coordinates (idle/walk/attack/h
 
 This remains **procedural fan-art ornamentation on existing animated SpriteCollab sprites**, not new hand-drawn Mega-form sprite sheets or a finished species-specific alternate-sprite collection. The next art stage is individual transparent sprite sheets per Pokémon and skin.
 
+## Cosmic Pixel Atlases 3.0 — Prismatic and Galaxy Mewtwo
+
+**The first real, separate transparent skin animation files are included in the game:**
+
+- `assets/variants/150/prismatic/{Idle,Walk,Attack,Shoot,Charge,Hurt,Faint}.png`
+- `assets/variants/150/galaxy/{Idle,Walk,Attack,Shoot,Charge,Hurt,Faint}.png`
+
+Each PNG is an animation *atlas*, containing every original frame and all eight directional rows. Frames are built from the original noncommercial SpriteCollab Mewtwo sprites, with recolored pixel materials and frame-aligned, code-authored crystal and star details **baked into their actual pixels**. The source animation timing, width, height, and foot anchors are unchanged. This is a new pre-rendered sprite-art layer and remains **derivative fan artwork**, not entirely hand-drawn original Pokémon graphics or canonical Mega-form sprites.
+
+The sprite loader uses these atlases for **Mewtwo Prismatic** and **Mewtwo Galaxy**. While they download or if one is unavailable, the previous animated procedural skin renderer works as the fallback. All other species and skin combinations continue to work as before.
+
+### Try the new artwork without spending currency
+
+1. Open [Cosmic Test Lab](https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1), enter **Guest** mode and click **TEST LAB**.
+2. Borrow **Mewtwo**, click **Start Solo Test**.
+3. Reopen **TEST LAB** during the run, choose **Prismatic** or **Galaxy**, and close the panel. Try moving, attacking, and turning around.
+4. Reopen the Lab and click **Transparent Pixel Atlas ON (Mewtwo)**. The button switches to **Procedural shader comparison (PNG OFF)**. Close the panel to see the previous style.
+5. Switch the button again to return to the baked PNG art. The normal Wardrobe now labels those two Mewtwo skins **ANIMATED PIXEL ATLAS**.
+
+Your real local account is unchanged by Guest testing. Nothing is permanently unlocked. In normal play, Prismatic and Galaxy keep their prior Wardrobe unlock prices.
+
+### Rebuilding the frames
+
+Source: `tools/build_variant_atlases.py`, built through `.github/workflows/export-mewtwo-atlases.yml`, with a checksummed `assets/variants/150/manifest.json`. The generated PNGs are committed into the repository and served statically by GitHub Pages. Original SpriteCollab attribution and the CC BY-NC 4.0 obligations still apply.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
