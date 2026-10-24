@@ -1,24 +1,27 @@
-# Cosmic Survivors v0.4 — Evolution & Combat Update
+# Cosmic Survivors Changelog
 
-## New features
+## v0.5 — Rift Realms (October 24, 2026)
+- Three redesigned moving dungeon floors. Nebula Hollow uses violet cosmic ruins; Cinder Spire adds crimson fissures; Astral Ruins has luminous seals and wandering motes.
+- Procedural parallax-like environmental details include broken obelisks, cracked tiles, ancient circles, floating particles and glowing sigils, all deterministically positioned in world space.
+- Enemy visual redesign: wisp flames, swift darts, armored bulwarks, seer eyes, elite shard-crowns and the multi-spiked Rift Guardian.
+- Elite and boss radial blasts now show a visible warning circle before doing damage; dash grants a brief invulnerability window.
+- Menu and HUD polish: moving celestial portrait, layered panels, updated selected states, stronger arena frame and reduced-motion handling.
+- Keeps the v0.4 Starling → Nebulynx → Astralynx evolutions, skin collection, shop and saves intact.
 
-- **New original companion, Starling** (select from the character roster).
-- **Two actual visual evolutions:** Starling → Nebulynx at level 4 → Astralynx at level 8.
-- Every evolution changes the creature illustration, updates the HUD and nameplate, gives +18% damage, +5% movement speed, and +18 max HP.
-- Existing final-stage Pokémon concept companions still use **Awakening** at levels 5 and 10. No fake new canonical species evolutions.
-- **Dash:** Press Space or tap the Dash button to briefly dodge (3.5-second cooldown).
-- **Ranged enemy:** Seers maintain distance and shoot projectiles.
-- **Visual polish:** Walking bounce, gentle tilt, magical movement trails, evolution shockwaves, and more readable enemy projectiles.
-- **New mission:** Evolve Starling once to earn a stardust reward.
-- Existing Wardrobe, missions, shops, upgrades, saves, and dungeons preserved.
+### Testing
+- JavaScript syntax checks pass on the three inlined scripts.
+- Existing VM smoke test passes for the Starling evolution progression.
+- Actual headless Chromium test confirms: menu rendering, six companions, dungeon selection, Starling gameplay, dodge cooldown, auto-attacks, pause/resume, Cinder Spire appearance; no page exceptions.
+- The full 90-second survival balance and long-run performance still need more testing.
 
-## How to test evolution
+### Roadmap
+Replace prototype character portraits with correctly animated original sprite sheets (idle/run/attack/hurt/evolve), more varied bosses, stronger map identity, mobile controls, and rebalance difficulty.
 
-Select Starling on the main menu, then pick up experience crystals. It evolves automatically at **level 4** and **level 8**; the current form appears in the HUD. Selectable variants recolor all forms.
+## v0.4 — Evolution & Combat
+- Starling, Nebulynx and Astralynx original evolution line (levels 4/8).
+- Dash, ranged Seers, cosmetic animation effects and evolution mastery mission.
 
-## Notes
+## Earlier
+- v0.3 implemented baseline survival dungeons, weapons, wardrobe, boss, upgrades and collectible progression.
 
-- This is still an early noncommercial prototype. Original Pokémon-themed artwork supplied as references is not cleared for commercial use.
-- Save progress uses localStorage and remains compatible with previous prototype versions.
-- A programmatic JavaScript test verifies initialization and both evolutionary milestones. Manual full-browser rendering could not be verified in this execution environment.
-- **Nightfall is completely separate and was not changed.**
+All changes are confined to Cosmic Survivors. Nightfall is a separate project.
