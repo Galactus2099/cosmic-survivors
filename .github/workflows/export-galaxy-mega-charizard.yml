@@ -1,0 +1,89 @@
+name: Galaxy Mega Charizard art export and gameplay regression
+on:
+  push:
+    branches: [feature/galaxy-mega-charizard-art-v1]
+    paths:
+      - 'tools/build_galaxy_mega_charizard.py'
+      - 'classic/js/mods/**'
+      - 'tests/galaxy-mega-charizard.test.cjs'
+      - '.github/workflows/export-galaxy-mega-charizard.yml'
+  pull_request:
+    paths:
+      - 'tools/build_galaxy_mega_charizard.py'
+      - 'classic/js/mods/**'
+      - 'classic/assets/mega-variants/6/galaxy/**'
+      - 'classic/index.html'
+      - 'tests/galaxy-mega-charizard.test.cjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout isolated Cosmic Survivors branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/galaxy-mega-charizard-art-v1
+          fetch-depth: 1
+      - name: Install sprite tools
+        run: python3 -m pip install --user --quiet pillow numpy
+      - name: Export all real Galaxy Mega Charizard X and Y animation PNGs
+        run: python3 tools/build_galaxy_mega_charizard.py --verify
+      - name: Verify actual sprite pixels, transparency and frame geometry
+        run: |
+          python3 - <<'PY'
+          import json,hashlib,numpy as np
+          from pathlib import Path
+          from PIL import Image
+          root=Path('classic/assets/mega-variants/6/galaxy')
+          manifest=json.loads((root/'manifest.json').read_text())
+          assert manifest['forms']==['x','y']
+          assert manifest['pad']==14 and len(manifest['atlases'])==14
+          for form in ('x','y'):
+            for anim in ('Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'):
+              data=manifest['atlases'][form+'/'+anim]
+              png=root/form/(anim+'.png')
+              dst=Image.open(png).convert('RGBA')
+              original=Image.open(Path('classic/assets/pokemon/6')/(anim+'.png')).convert('RGBA')
+              assert data['sha256']==hashlib.sha256(png.read_bytes()).hexdigest()
+              assert dst.size==(data['width'],data['height'])
+              assert dst.width==(original.width//data['frames']+28)*data['frames']
+              assert dst.height==(original.height//data['directions']+28)*data['directions']
+              assert dst.getchannel('A').getextrema()==(0,255)
+              # Check the main sprite's RECOLORED pixels, not gold halo effects.
+              source=np.asarray(original,dtype=np.uint8)
+              out=np.asarray(dst,dtype=np.uint8)
+              ow=original.width//data['frames']
+              oh=original.height//data['directions']
+              for dr in range(data['directions']):
+                for fr in range(data['frames']):
+                  old=source[dr*oh:(dr+1)*oh,fr*ow:(fr+1)*ow]
+                  new=out[dr*(oh+28)+14:dr*(oh+28)+14+oh,fr*(ow+28)+14:fr*(ow+28)+14+ow]
+                  orange=(new[:,:,0].astype('int32')>new[:,:,2].astype('int32')*1.3)&(new[:,:,0].astype('int32')>new[:,:,1].astype('int32')*1.5)&(new[:,:,1]>55)&(old[:,:,3]>170)
+                  assert int(orange.sum())==0, (form,anim,dr,fr,'base orange still visible')
+              print('CHECKED',form,anim,dst.size,'no orange')
+          PY
+      - name: Test live renderer and existing game systems
+        run: |
+          node --check classic/js/mods/galaxy-mega-charizard.js
+          node --check classic/js/mods/mega-evolution.js
+          node --check classic/js/mods/skin-fx.js
+          node tests/galaxy-mega-charizard.test.cjs
+          node tests/sprite-atlas.test.cjs
+          node tests/skin-fx.test.cjs
+          node tests/species-art.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Commit validated PNGs to feature branch only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add classic/assets/mega-variants/6/galaxy
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: add galaxy Mega Charizard X and Y full-reskin transparent animation atlases'
+            git push origin HEAD:feature/galaxy-mega-charizard-art-v1
+          fi
