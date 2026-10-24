@@ -1,0 +1,45 @@
+name: Test Lab and Haunted Hollow checks
+on:
+  push:
+    branches: [feature/guest-test-lab-haunted-hollow]
+    paths:
+      - 'classic/js/mods/**'
+      - 'classic/css/test-lab.css'
+      - 'classic/index.html'
+      - 'tests/testlab.test.cjs'
+      - '.github/workflows/test-lab.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/**'
+      - 'classic/index.html'
+      - 'tests/testlab.test.cjs'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static syntax checks
+        run: |
+          node --check classic/js/mods/test-lab.js
+          node --check classic/js/mods/haunted-hollow.js
+          node --check classic/js/mods/mega-evolution.js
+          node --check classic/js/mods/halloween-waves.js
+          node --check classic/js/mods/cosmic.js
+      - name: Game test mode and Haunted Hollow
+        run: node tests/testlab.test.cjs
+      - name: Existing Halloween and Mega regressions
+        run: |
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Validate integration and licensing
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('classic/index.html').read_text()
+          for name in ('haunted-hollow.js','test-lab.js','mega-evolution.js','halloween-waves.js'):
+            assert 'js/mods/'+name in s
+          assert 'css/test-lab.css' in s
+          assert s.index('mega-evolution.js')<s.index('test-lab.js')<s.index('js/main.js')
+          assert Path('classic/LICENSE').is_file() and Path('classic/CREDITS.md').is_file()
+          print('Required imports, licensing and credits present')
+          PY
