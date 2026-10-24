@@ -1,0 +1,153 @@
+{
+  "dex": 6,
+  "style": "galaxy",
+  "forms": [
+    "x",
+    "y"
+  ],
+  "pad": 14,
+  "license_note": "Derivative SpriteCollab Pok\u00e9mon art CC BY-NC 4.0; keep classic/CREDITS.md",
+  "version": 1,
+  "atlases": {
+    "x/Idle": {
+      "width": 272,
+      "height": 608,
+      "frameWidth": 68,
+      "frameHeight": 76,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 51120,
+      "sha256": "67ada1e613bae4a68a8c3eb41b052b14186dac3a2f1e512eaa20b55c6e994668"
+    },
+    "x/Walk": {
+      "width": 272,
+      "height": 608,
+      "frameWidth": 68,
+      "frameHeight": 76,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 51120,
+      "sha256": "67ada1e613bae4a68a8c3eb41b052b14186dac3a2f1e512eaa20b55c6e994668"
+    },
+    "x/Attack": {
+      "width": 1512,
+      "height": 928,
+      "frameWidth": 108,
+      "frameHeight": 116,
+      "frames": 14,
+      "directions": 8,
+      "bytes": 147423,
+      "sha256": "1f923088634f87cb3d5564b2a300d114bb42054e52e813190cdf25e781c833b8"
+    },
+    "x/Shoot": {
+      "width": 924,
+      "height": 672,
+      "frameWidth": 84,
+      "frameHeight": 84,
+      "frames": 11,
+      "directions": 8,
+      "bytes": 112511,
+      "sha256": "44d904316004b2a36e7d8e2c33d0b05fc9d49e943931492bfe16a644f29f33a1"
+    },
+    "x/Charge": {
+      "width": 760,
+      "height": 608,
+      "frameWidth": 76,
+      "frameHeight": 76,
+      "frames": 10,
+      "directions": 8,
+      "bytes": 65644,
+      "sha256": "57a15ba48e3c4cadb8dc5cd9278f2f183b988a14628227efe36c0db886ba20a7"
+    },
+    "x/Hurt": {
+      "width": 184,
+      "height": 736,
+      "frameWidth": 92,
+      "frameHeight": 92,
+      "frames": 2,
+      "directions": 8,
+      "bytes": 37822,
+      "sha256": "51b3eddce5a88c2fdc38b3e29bf50409eaf249d45060a7a78c75a7ac6bbb119b"
+    },
+    "x/Faint": {
+      "width": 304,
+      "height": 608,
+      "frameWidth": 76,
+      "frameHeight": 76,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 45247,
+      "sha256": "0f85672d3547ab10c8ea68ef8721105c83e17172d1d274f355beeeb8dc632e7a"
+    },
+    "y/Idle": {
+      "width": 272,
+      "height": 608,
+      "frameWidth": 68,
+      "frameHeight": 76,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 51474,
+      "sha256": "703c47f07de83a3997b2d7944dc27ed1d77e0dc292b5d6d536392d79b215a2fd"
+    },
+    "y/Walk": {
+      "width": 272,
+      "height": 608,
+      "frameWidth": 68,
+      "frameHeight": 76,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 51474,
+      "sha256": "703c47f07de83a3997b2d7944dc27ed1d77e0dc292b5d6d536392d79b215a2fd"
+    },
+    "y/Attack": {
+      "width": 1512,
+      "height": 928,
+      "frameWidth": 108,
+      "frameHeight": 116,
+      "frames": 14,
+      "directions": 8,
+      "bytes": 149050,
+      "sha256": "660fb484f22232442a8338b16eebabf4dbad4200763c1d10ca374b001ebb7878"
+    },
+    "y/Shoot": {
+      "width": 924,
+      "height": 672,
+      "frameWidth": 84,
+      "frameHeight": 84,
+      "frames": 11,
+      "directions": 8,
+      "bytes": 113927,
+      "sha256": "fb6d2308f24c8c233d81ec9b6f16645587e783d71e89b52e0d35fe1da5900ef5"
+    },
+    "y/Charge": {
+      "width": 760,
+      "height": 608,
+      "frameWidth": 76,
+      "frameHeight": 76,
+      "frames": 10,
+      "directions": 8,
+      "bytes": 65919,
+      "sha256": "c71723a000d554748f1f3b25f5ffba02cbe08c00c860d9d06192240aa00423b9"
+    },
+    "y/Hurt": {
+      "width": 184,
+      "height": 736,
+      "frameWidth": 92,
+      "frameHeight": 92,
+      "frames": 2,
+      "directions": 8,
+      "bytes": 38492,
+      "sha256": "e0427a24e105d88ccc57beadf740bea481b1f05a0e130a0d3da9336c88d4dc14"
+    },
+    "y/Faint": {
+      "width": 304,
+      "height": 608,
+      "frameWidth": 76,
+      "frameHeight": 76,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 45941,
+      "sha256": "9551db6b42d3da5cc0388f387e3a4858768b7ecfb89fb94fa19d85ca45027481"
+    }
+  }
+}
