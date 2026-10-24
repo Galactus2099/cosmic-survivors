@@ -14,7 +14,7 @@
     ghost:'#a07aff',dark:'#ac83e6',dragon:'#ba9bfc',electric:'#ffd96e',
     ice:'#a3f6fa',steel:'#ffdda1',fairy:'#f9a8dd',fighting:'#f69d79'
   };
-  let player=null,offer=null,rollTime=0,lastWave=0,latestForm=null,dialog=null,compact=null;
+  let player=null,offer=null,rollTime=0,lastWave=0,latestForm=null,dialog=null,compact=null,promptQueued=false;
   const GAME=()=>window.G&&G.Game, ACCOUNT=()=>window.G&&G.DB&&G.DB.save;
   function eligible(dex){return ELIGIBLE.has(Number(dex));}
   function typesColor(p){return COLOR[p&&p.mon&&p.mon.types&&p.mon.types[0]]||'#b998ff';}
@@ -148,12 +148,19 @@
     compact.hidden=!(mega&&G.Game.state!=='ui');
     if(mega)compact.textContent='✦ '+mega.name+' · ACTIVE';
   }
+  function queueOffer(){
+    if(promptQueued)return;
+    promptQueued=true;
+    // Run only after the current game frame has finished. If level-up took
+    // priority this frame, it remains visible and the offer waits.
+    setTimeout(()=>{promptQueued=false;if(offer)show();},0);
+  }
   function update(dt){
     const game=GAME();if(!game||game.state!=='playing'||!game.player)return;
     const p=game.player;
     if(player!==p){player=p;offer=null;rollTime=0;lastWave=0;latestForm=null;dialog.hidden=true;}
     if(!eligible(p.dex)||p.dead||p.cosmicForm)return;
-    if(offer){show();return;}
+    if(offer){queueOffer();return;}
     const w=window.CosmicHalloween&&window.CosmicHalloween.state&&window.CosmicHalloween.state();
     if(w&&w.waves){
       if(w.round>=20&&w.round!==lastWave){
@@ -170,7 +177,7 @@
         if(t>=2040||Math.random()<.26)offer=formsFor(p.dex);
       }
     }
-    if(offer)show();
+    if(offer)queueOffer();
   }
   function badge(){
     const s=ACCOUNT();
@@ -187,7 +194,7 @@
   function install(){
     createUI();
     const prevStart=G.Game.startRun;
-    G.Game.startRun=function(...args){const res=prevStart.apply(this,args);player=G.Game.player;rollTime=0;lastWave=0;offer=null;latestForm=null;drawStatus();return res;};
+    G.Game.startRun=function(...args){const res=prevStart.apply(this,args);player=G.Game.player;rollTime=0;lastWave=0;offer=null;promptQueued=false;latestForm=null;drawStatus();return res;};
     const spawner=G.Spawner.update;
     G.Spawner.update=function(dt,players,t){const v=spawner.call(this,dt,players,t);update(dt);return v;};
     const oldMenu=G.MenuUI.open;
