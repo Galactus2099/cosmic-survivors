@@ -1,0 +1,78 @@
+name: Export Charizard Gengar Lucario Pixel Atlases
+
+on:
+  push:
+    branches: [feature/expanded-cosmic-pixel-atlases]
+    paths:
+      - 'tools/build_more_variant_atlases.py'
+      - '.github/workflows/export-expanded-pixel-atlases.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out this isolated Cosmic Survivors branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/expanded-cosmic-pixel-atlases
+          fetch-depth: 1
+      - name: Install PNG libraries
+        run: python3 -m pip install --user --quiet pillow numpy
+      - name: Build real transparent frame atlases
+        run: python3 tools/build_more_variant_atlases.py --verify
+      - name: Verify all outputs against source metadata and SHA manifests
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          from PIL import Image
+          root=Path('classic/assets/variants')
+          total=0
+          for dex in (6,94,448):
+            data=json.loads((root/str(dex)/'manifest.json').read_text())
+            assert len(data['atlases'])==14
+            for skin in ('prismatic','galaxy'):
+              for animation in ('Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'):
+                name=skin+'/'+animation
+                item=data['atlases'][name]
+                path=root/str(dex)/skin/(animation+'.png')
+                original=Path('classic/assets/pokemon')/str(dex)/(animation+'.png')
+                assert path.exists() and original.exists()
+                dst=Image.open(path).convert('RGBA')
+                src=Image.open(original).convert('RGBA')
+                assert dst.size==src.size
+                assert dst.getchannel('A').getextrema()==(0,255)
+                assert item['sha256']==hashlib.sha256(path.read_bytes()).hexdigest()
+                assert item['frames']>=2 and item['directions']==8
+                total+=1
+                print('VERIFIED',dex,name,item['width'],item['height'])
+          assert total==42
+          print('Validated',total,'new sprite PNG atlases')
+          PY
+      - name: Run all sprite and gameplay checks
+        run: |
+          node --check classic/js/mods/sprite-atlas.js
+          node --check classic/js/mods/test-lab.js
+          node --check classic/js/mods/skin-fx.js
+          node tests/sprite-atlas.test.cjs
+          node tests/skin-fx.test.cjs
+          node tests/species-art.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Commit binary atlases only to the isolated branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add classic/assets/variants/6 classic/assets/variants/94 classic/assets/variants/448
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: add 42 transparent animated Prismatic/Galaxy atlases for three Pokémon'
+            git push origin HEAD:feature/expanded-cosmic-pixel-atlases
+          fi

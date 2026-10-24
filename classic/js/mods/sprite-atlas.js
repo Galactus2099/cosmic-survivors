@@ -6,9 +6,9 @@
  */
 (() => {
  'use strict';
- const ENABLED={150:new Set(['prismatic','galaxy'])};
+ const ENABLED=Object.fromEntries([6,94,150,448].map(dex=>[dex,new Set(['prismatic','galaxy'])]));
  const LOADED=new Map();
- const VERSION='1';
+ const VERSION='2';
  let mode='auto';
  const KEY=['Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'];
  const isSupported=(dex,skin)=>!!(ENABLED[Number(dex)]&&ENABLED[Number(dex)].has(skin));

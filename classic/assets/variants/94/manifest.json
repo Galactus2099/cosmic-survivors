@@ -1,0 +1,125 @@
+{
+  "dex": 94,
+  "species": "Gengar",
+  "version": 1,
+  "skins": [
+    "prismatic",
+    "galaxy"
+  ],
+  "license_note": "Derivative from SpriteCollab noncommercial Pok\u00e9mon art, CC BY-NC 4.0; preserve classic/CREDITS.md.",
+  "generator": "tools/build_more_variant_atlases.py",
+  "atlases": {
+    "prismatic/Idle": {
+      "width": 256,
+      "height": 320,
+      "frames": 8,
+      "directions": 8,
+      "sha256": "1cfa49ee930734cf74f211d22373b671896d65b701b07fbc1eff7a9d351dcec3",
+      "bytes": 35321
+    },
+    "prismatic/Walk": {
+      "width": 128,
+      "height": 320,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "7d054448d2b3f020526b68a13eac2d4a8fd005a3d59b7d79b2ed18646d7e38e0",
+      "bytes": 21608
+    },
+    "prismatic/Attack": {
+      "width": 792,
+      "height": 640,
+      "frames": 11,
+      "directions": 8,
+      "sha256": "8a4b7889ca4eb0d9065c5b0b872c9cbe5a8e2746bf8ec2f81cf5f02a2767f838",
+      "bytes": 113309
+    },
+    "prismatic/Shoot": {
+      "width": 672,
+      "height": 512,
+      "frames": 12,
+      "directions": 8,
+      "sha256": "8c13edfc4613e9b87a904ace67603d7fc06ace559757669c0f1c71aa5190f37e",
+      "bytes": 104176
+    },
+    "prismatic/Charge": {
+      "width": 320,
+      "height": 320,
+      "frames": 10,
+      "directions": 8,
+      "sha256": "8c738c4a7d8f74f79c35a24f5bc691ad82a5f2868d02e8aa2fb2526f5ccb6630",
+      "bytes": 41497
+    },
+    "prismatic/Hurt": {
+      "width": 96,
+      "height": 448,
+      "frames": 2,
+      "directions": 8,
+      "sha256": "397ef2ea2d4b7dd7b303b47dde4a5a31fbbd46401ac8306e068e871420ffeebc",
+      "bytes": 23283
+    },
+    "prismatic/Faint": {
+      "width": 128,
+      "height": 320,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "f2f6621a97a713c3bbbd570b6542b12e2fb2d82a2b00cd0b06ff238ff2ca9000",
+      "bytes": 15048
+    },
+    "galaxy/Idle": {
+      "width": 256,
+      "height": 320,
+      "frames": 8,
+      "directions": 8,
+      "sha256": "49a2e385834ff09f97785642a884f8744ce06b9e52632ba36c507f36a28d50d1",
+      "bytes": 47934
+    },
+    "galaxy/Walk": {
+      "width": 128,
+      "height": 320,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "71a0098ef34d5309d4c4924331d60f111bfeb8244331a63cb802edd54c66aeaf",
+      "bytes": 29470
+    },
+    "galaxy/Attack": {
+      "width": 792,
+      "height": 640,
+      "frames": 11,
+      "directions": 8,
+      "sha256": "ad4525fd8320a6f33fc35686ad2f538bd50a952e988c5033bab89c6e93d406d1",
+      "bytes": 127845
+    },
+    "galaxy/Shoot": {
+      "width": 672,
+      "height": 512,
+      "frames": 12,
+      "directions": 8,
+      "sha256": "6adce83633edb30e0e54f0b26778be1c49703139ab2e92d4c640d6475b5a3895",
+      "bytes": 114555
+    },
+    "galaxy/Charge": {
+      "width": 320,
+      "height": 320,
+      "frames": 10,
+      "directions": 8,
+      "sha256": "6e2c91f393584359f1e7a6ab6fe3948040ddaec0bf0344e35f02de328b54fea7",
+      "bytes": 56490
+    },
+    "galaxy/Hurt": {
+      "width": 96,
+      "height": 448,
+      "frames": 2,
+      "directions": 8,
+      "sha256": "c0484aa7d24e58f450c510495b943bc2c1f109ae4c4299eb0528aaadb67c7dd0",
+      "bytes": 27526
+    },
+    "galaxy/Faint": {
+      "width": 128,
+      "height": 320,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "90e25dc9a111d5a32aa05f1ee02a133d4e8c73595199c93e3b97269a706a662f",
+      "bytes": 14301
+    }
+  }
+}
