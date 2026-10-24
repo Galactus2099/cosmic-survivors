@@ -1,0 +1,30 @@
+/* Halloween & Waves extension — never changes original game layout rules. */
+#hw-waves-hud[hidden],#hw-shop[hidden]{display:none!important}
+#hw-waves-hud{pointer-events:none;position:fixed;z-index:35;top:62px;left:50%;transform:translateX(-50%);border:1px solid #f1a75d;background:linear-gradient(145deg,#30172de8,#140d27ef);box-shadow:0 8px 30px #0009,0 0 30px #f1794a28;padding:8px 18px;border-radius:12px;display:flex;flex-direction:column;align-items:center;min-width:230px;max-width:95vw;color:#ffeac6;font:700 13px ui-sans-serif,system-ui,sans-serif;text-align:center;gap:3px}
+#hw-waves-hud .hw-title{font-size:19px;letter-spacing:.1em;color:#f8b36b}
+#hw-waves-hud .hw-status{font-size:11px;color:#e9d1de}
+#hw-waves-hud .hw-corn{font-size:11px;color:#f1b96c}
+#hw-menu-shop{border-left:3px solid #f7a965}
+#hw-waves-start{border-left:3px solid #bc88ff}
+#hw-shop{position:fixed;z-index:9500;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:auto;background:#0d0813dd;backdrop-filter:blur(7px);padding:3vh 12px;box-sizing:border-box}
+.hw-shop-panel{position:relative;flex:none;width:min(730px,100%);background:radial-gradient(circle at 80% 0,#783e555c,transparent 43%),#201427;border:1px solid #c68177;border-radius:18px;box-shadow:0 20px 65px #000e;color:#fff1df;padding:clamp(17px,3vw,30px);box-sizing:border-box;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif}
+.hw-shop-panel h2{color:#ffbc74;font:normal clamp(28px,5vw,42px) Georgia,serif;margin:8px 0 12px}
+.hw-shop-panel p{color:#d4bfcf;font-size:13px;line-height:1.55}
+.hw-eyebrow{font-size:11px;font-weight:850;letter-spacing:.18em;color:#e7a6dc}
+.hw-close{position:absolute;right:14px;top:12px;border:1px solid #ad748e;background:#44253f;border-radius:9px;color:white;cursor:pointer;padding:8px 14px;font-size:18px}
+#hw-bank{color:#fbd591;background:#412339;border:1px solid #72485e;border-radius:10px;padding:12px 14px;font-weight:800;margin:16px 0}
+#hw-shop-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hw-item{display:flex;align-items:center;gap:9px;min-height:99px;text-align:left;background:#2e1d36;border:1px solid #644668;color:#fff;border-radius:11px;padding:11px;cursor:pointer;transition:background .15s}
+.hw-item:hover:not(:disabled){background:#493052;border-color:#f2b57a}
+.hw-item.hw-owned{opacity:.75;cursor:default}
+.hw-item-icon{font-size:27px;width:36px;text-align:center}
+.hw-item-info{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.hw-item-info strong{font-size:13px;color:#ffe6ba}
+.hw-item-info small{font-size:10px;line-height:1.4;color:#ceb9d2}
+.hw-price{white-space:nowrap;color:#ffcb80;font-size:11px;font-weight:800}
+.hw-note{font-size:11px!important;opacity:.8;border-top:1px solid #644668;padding-top:12px}
+#hw-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-14px);z-index:9800;background:#4a254a;border:1px solid #f2b877;color:#ffeccf;font:700 13px ui-sans-serif,system-ui,sans-serif;border-radius:10px;padding:12px 18px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+#hw-toast.shown{opacity:1;transform:translateX(-50%) translateY(0)}
+body.hw-haunted #scr-menu{background-image:radial-gradient(circle at 30% 12%,#821f404a,transparent 45%),radial-gradient(circle at 82% 88%,#6841b23d,transparent 50%)!important}
+@media(max-width:680px){#hw-shop-items{grid-template-columns:1fr}#hw-waves-hud{top:42px;padding:5px 11px}#hw-waves-hud .hw-title{font-size:15px}.hw-shop-panel{padding:18px 13px}.hw-item{min-height:73px}}
+@media(prefers-reduced-motion:reduce){#hw-toast{transition:none}.hw-item{transition:none}}
