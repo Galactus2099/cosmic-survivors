@@ -1,0 +1,41 @@
+name: Halloween and Waves regression checks
+on:
+  push:
+    branches:
+      - feature/halloween-waves-v1
+    paths:
+      - 'classic/js/mods/halloween-waves.js'
+      - 'classic/js/mods/halloween-waves.css'
+      - 'classic/index.html'
+      - 'tests/halloween-waves.test.cjs'
+      - '.github/workflows/test-halloween.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/halloween-waves.js'
+      - 'classic/index.html'
+      - 'tests/halloween-waves.test.cjs'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check extension syntax
+        run: |
+          node --check classic/js/mods/halloween-waves.js
+          node --check classic/js/mods/cosmic.js
+          node --check classic/js/main.js
+      - name: Test gameplay adapters
+        run: node tests/halloween-waves.test.cjs
+      - name: Verify script references and third-party license copies
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('classic/index.html').read_text()
+          assert 'src="js/mods/halloween-waves.js"' in s
+          assert 'href="css/halloween-waves.css"' in s
+          assert Path('classic/LICENSE').is_file()
+          assert Path('classic/CREDITS.md').is_file()
+          assert Path('classic/assets/pokemon/150/Idle.png').is_file()
+          assert Path('classic/assets/pokemon/249/Idle.png').is_file()
+          print('Classic Halloween integration and license assets verified')
+          PY
