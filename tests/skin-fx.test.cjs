@@ -8,7 +8,7 @@ class Canvas2D{
  set globalCompositeOperation(s){this.composites.push(s);this._op=s;}
  get globalCompositeOperation(){return this._op;}
  createLinearGradient(x0,y0,x1,y1){const g={stops:[],bounds:[x0,y0,x1,y1],addColorStop(t,c){this.stops.push([t,c]);palette.push(c)}};this.gradients.push(g);return g;}
- setTransform(){}clearRect(){}save(){}restore(){}beginPath(){}arc(){stars++}ellipse(){}fill(){}stroke(){this.strokes++}fillRect(){this.drawn++}drawImage(){this.drawn++}translate(){}moveTo(){}lineTo(){}closePath(){}
+ setTransform(){}clearRect(){}save(){this.stack=this.stack||[];this.stack.push({alpha:this.globalAlpha,filter:this.filter,op:this._op});}restore(){const x=this.stack&&this.stack.pop();if(x){this.globalAlpha=x.alpha;this.filter=x.filter;this._op=x.op;}}beginPath(){}arc(){stars++}ellipse(){}fill(){}stroke(){this.strokes++}fillRect(){this.drawn++}drawImage(){this.drawn++}translate(){}moveTo(){}lineTo(){}closePath(){}
 }
 const off=new Canvas2D(),on=new Canvas2D();
 const canvas={width:0,height:0,getContext(){return off}};
