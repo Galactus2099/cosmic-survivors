@@ -49,6 +49,10 @@
       window.CosmicMegaGalaxy.drawAura(ctx,anim,x,y);
       return;
     }
+    if(anim.cosmicPrismaticMegaActive&&window.CosmicMegaPrismatic){
+      window.CosmicMegaPrismatic.aura(ctx,anim,x,y);
+      return;
+    }
     const t=performance.now()/1000,scale=anim.scale||1;
     const rad=Math.max(19,pl.r*1.3);
     ctx.save();
@@ -88,6 +92,7 @@
     player.atkMul*=atk;player.spdMul*=spd;player.cdMul*=cd;
     player.cosmicForm={name:form.name,form:form.form,color:form.color};
     if(Number(player.dex)===6&&window.CosmicMegaGalaxy)window.CosmicMegaGalaxy.warmup(form.form);
+    if(Number(player.dex)===150&&window.CosmicMegaPrismatic)window.CosmicMegaPrismatic.warmup(form.form);
     player.invuln=Math.max(player.invuln||0,2.5);
     latestForm=form.name;
     record(form);
