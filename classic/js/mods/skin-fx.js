@@ -198,6 +198,11 @@
     tex.restore();
     const t=performance.now()/1000;
     material(tex,id,w,h,t);
+    // Additional body-specific crest/armor/gem geometry follows each sprite
+    // frame's feet anchor, keeping Walk/Attack animations intact.
+    if(window.CosmicSpeciesArt&&window.CosmicSpeciesArt.apply){
+      window.CosmicSpeciesArt.apply(tex,anim,id,m,k,t);
+    }
     const dx=Math.round(x-m.ax*k),dy=Math.round(y-m.ay*k);
     const prior=ctx.globalAlpha;
     if(opts&&opts.alpha!=null)ctx.globalAlpha*=opts.alpha;
