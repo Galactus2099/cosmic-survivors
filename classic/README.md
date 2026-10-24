@@ -132,6 +132,28 @@ Noncommercial derivative art: keep the original `classic/CREDITS.md` and SpriteC
 
 **Scope and honesty:** These are **new generated, derivative pixel-art animation frames fitted to the real Charizard silhouette**, not officially licensed or fully hand-painted Pokémon artwork. They aim at the approved artwork's design language at the game's existing low pixel resolution, rather than matching its high-resolution illustration pixel-for-pixel. Original CC BY-NC SpriteCollab credits in `CREDITS.md` and upstream MIT code notices in `LICENSE` are retained. Megas in other skin families are still separate future work.
 
+## Cosmic Skins 3.3 — distinct Prismatic Mega Mewtwo X and Y
+
+The **Prismatic Mewtwo** skin now gets a genuinely separate **transformed appearance** after an in-run Mega Evolution. Mega **X** and **Y** do not share the ordinary Prismatic Mewtwo sprite atlas.
+
+- **Mega Mewtwo X:** darker sapphire/rainbow faceted body, broad crystalline fighting shoulder armor and gauntlets, flanking psychic horns, large chest jewel and a refracted tail loop
+- **Mega Mewtwo Y:** brighter opalescent lavender/pink/cyan body, taller telekinetic crystal fins, sleek shoulder pieces, a prominent crystal crown, glowing chest core and a longer psychic tail aura
+- Both retain **Mewtwo's recognizable original face and body**, with seven separate **transparent** animation atlases each for Idle/Walk/Attack/Shoot/Charge/Hurt/Faint and all eight direction rows
+- Modest partial psychic rings and small sparkles accompany the body instead of obscuring it with floating geometric objects
+- The sprites activate **only after Mega Evolution**, with the Prismatic skin selected; no new unlock prices
+- **Safe fallback:** if a Mega animation PNG is missing or still loading, the previous ordinary Prismatic Mewtwo visuals remain playable. The Guest Test Lab's sprite comparison toggle still works.
+
+### How to test instantly
+
+1. Visit <https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1>, sign in as **Guest**.
+2. Click **TEST LAB**, borrow **Mewtwo**, select **Start Solo Test**.
+3. During the run, reopen **TEST LAB** and set **Creature appearance → Prismatic**. Close the test panel.
+4. Reopen **TEST LAB → Show Mega Choice Now**. Choose **Mega Mewtwo X**, move and attack to examine its armor.
+5. Start another guest run to choose **Mega Mewtwo Y** and compare its slimmer silhouette and taller crown.
+6. In the Test Lab, toggle the pixel-atlas comparison control to see the earlier shader style.
+
+The 14 PNGs and SHA-256 manifest are under `classic/assets/mega-variants/150/prismatic`. The reproducible generator is `tools/build_prismatic_mega_mewtwo.py`, and export/regression workflow `.github/workflows/export-prismatic-mega-mewtwo.yml`. They are **derivative SpriteCollab fan pixel art**, not officially licensed/independently hand-painted designs. Preserve `classic/CREDITS.md` and its CC BY-NC 4.0 credit requirements.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.

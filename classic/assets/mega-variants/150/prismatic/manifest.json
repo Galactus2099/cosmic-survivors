@@ -1,0 +1,154 @@
+{
+  "dex": 150,
+  "style": "prismatic",
+  "forms": [
+    "x",
+    "y"
+  ],
+  "pad": 16,
+  "version": 1,
+  "generator": "tools/build_prismatic_mega_mewtwo.py",
+  "license_note": "Derivative SpriteCollab CC BY-NC 4.0 fan artwork; retain classic/CREDITS.md",
+  "atlases": {
+    "x/Idle": {
+      "width": 512,
+      "height": 768,
+      "frameWidth": 64,
+      "frameHeight": 96,
+      "frames": 8,
+      "directions": 8,
+      "bytes": 63529,
+      "sha256": "aef93849e36d754ebd93d2fa8ee250abf09218efc45e7d2fb5cd0485fdf1796f"
+    },
+    "x/Walk": {
+      "width": 480,
+      "height": 704,
+      "frameWidth": 80,
+      "frameHeight": 88,
+      "frames": 6,
+      "directions": 8,
+      "bytes": 59121,
+      "sha256": "e52c67a8909f075abad5f30c26dffba53eb183e869fe013e94fbde6bb8f54953"
+    },
+    "x/Attack": {
+      "width": 1232,
+      "height": 960,
+      "frameWidth": 112,
+      "frameHeight": 120,
+      "frames": 11,
+      "directions": 8,
+      "bytes": 106243,
+      "sha256": "2ebfbac58f9fa3bf309a3de415b4461a08be7914c0e5cd49e7fe24b69765c401"
+    },
+    "x/Shoot": {
+      "width": 1144,
+      "height": 768,
+      "frameWidth": 88,
+      "frameHeight": 96,
+      "frames": 13,
+      "directions": 8,
+      "bytes": 97750,
+      "sha256": "645cfa8bf549431611ca6a83d7022d6826e6d2f3bc6ac3681e3353125fa422de"
+    },
+    "x/Charge": {
+      "width": 640,
+      "height": 704,
+      "frameWidth": 64,
+      "frameHeight": 88,
+      "frames": 10,
+      "directions": 8,
+      "bytes": 53221,
+      "sha256": "30d85d3af99cadd74ca0c6d179689e234726af6b35c9be5c42d04a422b79f0a4"
+    },
+    "x/Hurt": {
+      "width": 160,
+      "height": 832,
+      "frameWidth": 80,
+      "frameHeight": 104,
+      "frames": 2,
+      "directions": 8,
+      "bytes": 27124,
+      "sha256": "b3ff31e0ea9ebd7303518306adeaef170cceb8e267c7e052fb7dc671d2762bac"
+    },
+    "x/Faint": {
+      "width": 288,
+      "height": 640,
+      "frameWidth": 72,
+      "frameHeight": 80,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 42896,
+      "sha256": "c7c0518b71492fe697bfed9f2988073cb2cc6665d0d65bf6ada7acb7811b146c"
+    },
+    "y/Idle": {
+      "width": 512,
+      "height": 768,
+      "frameWidth": 64,
+      "frameHeight": 96,
+      "frames": 8,
+      "directions": 8,
+      "bytes": 71629,
+      "sha256": "1bad822e866477ac071d116a4bc17e55484ab9ba838eabfbc1f2ecddc9dea035"
+    },
+    "y/Walk": {
+      "width": 480,
+      "height": 704,
+      "frameWidth": 80,
+      "frameHeight": 88,
+      "frames": 6,
+      "directions": 8,
+      "bytes": 66044,
+      "sha256": "e1664a0c7b79e85c296e29a2a1df1285df6c5a6485f33ae1d13dcca56434a3f1"
+    },
+    "y/Attack": {
+      "width": 1232,
+      "height": 960,
+      "frameWidth": 112,
+      "frameHeight": 120,
+      "frames": 11,
+      "directions": 8,
+      "bytes": 121600,
+      "sha256": "95ee6abe23a48718d4f8ecb9ebaa56bf2c78f2c2d21df89224041491044d4601"
+    },
+    "y/Shoot": {
+      "width": 1144,
+      "height": 768,
+      "frameWidth": 88,
+      "frameHeight": 96,
+      "frames": 13,
+      "directions": 8,
+      "bytes": 112258,
+      "sha256": "4f84410c0bc4ac2470a329c062e0ab26681ff6cedb49993cbf4d05686b865ee1"
+    },
+    "y/Charge": {
+      "width": 640,
+      "height": 704,
+      "frameWidth": 64,
+      "frameHeight": 88,
+      "frames": 10,
+      "directions": 8,
+      "bytes": 55159,
+      "sha256": "91cb229cfa7bcdba7a323bdd019e3d8cf54751184f441d3d49bf744391fb3215"
+    },
+    "y/Hurt": {
+      "width": 160,
+      "height": 832,
+      "frameWidth": 80,
+      "frameHeight": 104,
+      "frames": 2,
+      "directions": 8,
+      "bytes": 31929,
+      "sha256": "3e5c8551da286c66fc277b84d136bf9e595d8973d611bca643d838bc501d4342"
+    },
+    "y/Faint": {
+      "width": 288,
+      "height": 640,
+      "frameWidth": 72,
+      "frameHeight": 80,
+      "frames": 4,
+      "directions": 8,
+      "bytes": 43891,
+      "sha256": "1409c19d8728eb388e5cfcfd76848812a014f5f299345c189c73065ba3f34838"
+    }
+  }
+}

@@ -110,9 +110,10 @@
       el.dataset.fitted=tailored&&s.id!=='normal'?'1':'0';
       const atlas=!!(window.CosmicSpriteAtlas&&window.CosmicSpriteAtlas.isSupported(dex,s.id));
       el.dataset.atlas=atlas?'1':'0';
+      const megaArt=Number(dex)===150&&s.id==='prismatic';
       const descriptions={normal:'Classic sprite',shadow:'Midnight smoke & violet runes',gold:'Animated metallic light',prismatic:'Rainbow crystals & sparkles',galaxy:'Nebula clouds & starfield',crimson:'Crimson flames & gold stardust'};
       el.style.setProperty('--skin-color',s.accent);
-      el.innerHTML='<span class="cosmic-orb"></span><b>'+s.title+'</b><small class="cosmic-material">'+descriptions[s.id]+'</small>'+(atlas?'<small class="cosmic-fitted">◆ ANIMATED PIXEL ATLAS</small>':tailored&&s.id!=='normal'?'<small class="cosmic-fitted">✦ SPECIES DETAILS</small>':'')+'<small>'+(s.id===selected?'✓ EQUIPPED':owned?'Equip':'🎃 '+s.cost+' Lanterns')+'</small>';
+      el.innerHTML='<span class="cosmic-orb"></span><b>'+s.title+'</b><small class="cosmic-material">'+descriptions[s.id]+'</small>'+(megaArt?'<small class="cosmic-fitted">✦ MEGA X/Y ART</small>':atlas?'<small class="cosmic-fitted">◆ ANIMATED PIXEL ATLAS</small>':tailored&&s.id!=='normal'?'<small class="cosmic-fitted">✦ SPECIES DETAILS</small>':'')+'<small>'+(s.id===selected?'✓ EQUIPPED':owned?'Equip':'🎃 '+s.cost+' Lanterns')+'</small>';
       el.onclick=()=>{
         if(!owned){if(money()<s.cost){notify('Earn more Lanterns in dungeon runs!');return;}save.lanterns-=s.cost;save['skinUnlocked_'+s.id]=true;}
         if(!dex){notify('Choose a partner first');return;}
