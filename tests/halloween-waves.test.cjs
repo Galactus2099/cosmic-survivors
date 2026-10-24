@@ -8,6 +8,7 @@ let originalSpawnerCalls=0, commits=0;
 const enemies=[];
 const save={partner:150,owned:{},cosmicHalloween:null};
 const G={
+  DEX_BY:{150:{dex:150,name:'Mewtwo'},249:{dex:249,name:'Lugia'}},
   DB:{save,guest:false,commit(){commits++;},grant(dex,source){save.owned[dex]={from:source}}},
   Player:{__cosmicWrapped:false},
   Sprites:{Animator:function(){},hovers(){return true}},
