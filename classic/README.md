@@ -95,6 +95,28 @@ Your real local account is unchanged by Guest testing. Nothing is permanently un
 
 Source: `tools/build_variant_atlases.py`, built through `.github/workflows/export-mewtwo-atlases.yml`, with a checksummed `assets/variants/150/manifest.json`. The generated PNGs are committed into the repository and served statically by GitHub Pages. Original SpriteCollab attribution and the CC BY-NC 4.0 obligations still apply.
 
+## Cosmic Pixel Atlases 3.1 — three more fully animated Pokémon
+
+The **Prismatic and Galaxy** pixel-baked animation atlases are now expanded from Mewtwo (#150) to:
+
+- **Charizard (#6):** faceted dragon-brow gems and crystalline wing joints (Prismatic); star-speckled nebula wing armor and a planetary chest emblem (Galaxy).
+- **Gengar (#94):** jagged prismatic spectral crown, jewel-studded cheek crystals and a shining ghost core; alternatively dark nebula horns, stars and a moonlit chest sigil.
+- **Lucario (#448):** crystalline aura-ear ornaments, jewel shoulder guards and bright bracelets; alternatively galaxy-blue aura ears, comet shoulder patterns and a planetary chest core.
+
+Every new skin ships **seven separate transparent animation PNG atlases**—Idle, Walk, Attack, Shoot, Charge, Hurt and Faint—and each contains all eight direction rows and the original frame timings. That's **42 new animation atlases**, plus Mewtwo's previously released 14.
+
+Each atlas is a generated derivative of SpriteCollab Pokémon sprite artwork with baked pixel-art flourishes: it is not a completely independently hand-painted replacement. Some frames have tight original boundaries, so the additions are kept within the original frame geometry.
+
+### How to compare new artwork
+
+Open [Guest Test Lab](https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1), enter Guest mode, and borrow **Charizard**, **Gengar** or **Lucario**. Start a Solo Test. Reopen Test Lab during the run, choose **Prismatic** or **Galaxy**, and close it. You can toggle **Transparent Pixel Atlases ON** to compare these saved PNG animation frames with the old procedural shader.
+
+### Rebuilding and attribution
+
+The repeatable exporter is `tools/build_more_variant_atlases.py`, using per-species original SpriteCollab frame metadata and existing `tools/build_variant_atlases.py` color-material functions. Binary PNGs and SHA-256 manifests are stored under `classic/assets/variants/{6,94,448}`. The PNGs are checked in automatically by the GitHub Actions export job.
+
+Noncommercial derivative art: keep the original `classic/CREDITS.md` and SpriteCollab CC BY-NC 4.0 obligations. Other species, and the Shadow/Gold/Crimson Nebula families, still use previous procedural effects pending additional frames.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
