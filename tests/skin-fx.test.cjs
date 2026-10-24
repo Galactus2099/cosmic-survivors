@@ -19,7 +19,7 @@ vm.runInNewContext(src,sandbox,{filename:'skin-fx.js'});
 const fx=window.CosmicSkinFX;
 assert.ok(fx&&fx.render&&fx.filters&&fx.palette);
 const anim={dex:150,cur:'Walk',frame:2,shiny:false,scale:1,cosmicPlayer:true};
-const base=function(ctx,x,y,opts){baseCalls++;assert.equal(this.frame,2);assert.equal(x,56);assert.equal(y,106);ctx.fillRect(0,0,112,120);};
+const base=function(ctx,x,y,opts){baseCalls++;assert.equal(this.frame,2);assert.equal(x,ctx===off?56:100);assert.equal(y,ctx===off?106:200);ctx.fillRect(0,0,112,120);};
 const before=off.gradients.length;
 fx.render(base,anim,on,100,200,{}, {id:'normal'});
 assert.equal(baseCalls,1,'normal sprite remains untouched');
