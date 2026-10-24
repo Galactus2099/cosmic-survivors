@@ -207,7 +207,7 @@
       shopButton.className='menu-item';shopButton.id='hw-menu-shop';
       shopButton.innerHTML='🎃 Halloween Shop <small>Candy Corn · special Pokémon · cosmetics</small>';
       shopButton.onclick=openShop;
-      area.append(wavesButton,shopButton);
+      const playButton=area.querySelector('[data-go="play"]');if(playButton)playButton.after(wavesButton,shopButton);else area.append(wavesButton,shopButton);
     }
     hud=document.createElement('aside');hud.id='hw-waves-hud';hud.hidden=true;
     hud.innerHTML='<b class="hw-title"></b><span class="hw-status"></span><span class="hw-corn"></span>';
