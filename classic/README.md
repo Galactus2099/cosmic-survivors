@@ -54,6 +54,22 @@ Open [Guest Test Lab](https://galactus2099.github.io/cosmic-survivors/classic/?t
 
 Real skin unlocks, Spirit Lanterns, Waves, Candy Corn, Halloween Shop and Mega Evolution remain as before. If you use a normal local account instead of Guest, the Lab won't alter it.
 
+## Cosmic Species Art 2.1 — fitted visual details
+
+**Mewtwo, Charizard, Gengar and Lucario** now receive additional *body-anchored* ornament geometry above the animated sprite textures. Each has its own head/shoulder/chest/arm layout, with distinct pieces for the five cosmetic families:
+
+- **Prismatic:** three-piece crystal crown, faceted shoulder crystals, a shining chest jewel, arm crystals and species-specific details. Mewtwo also gets a psychic-tail crystal ring.
+- **Galaxy:** celestial brow crest, star-studded shoulder plates, an orbiting crescent-and-star chest emblem and tiny star cuff marks.
+- **Gold:** metallic crown, patterned golden shoulder armor, a reflective chest medallion and wrist bands.
+- **Shadow:** dark curved horns, obsidian armor plates, violet psychic rune and shadow markings.
+- **Crimson Nebula:** crimson-black horn fins, gold-trimmed battle armor, burning chest core and ember-like bracers; Charizard gains extra dragon-wing/ember accents.
+
+The attachments use each animation's foot-anchor coordinates (idle/walk/attack/hurt) and extra transparent margins to accommodate larger spikes and crystals. Back-facing and defeated animations have special handling. Pokémon without fitted layouts still use the earlier animated material shaders.
+
+**How to see it:** Open `https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1`, enter **Guest**, open **TEST LAB**, borrow Mewtwo, then start a Solo Test. Open TEST LAB again during the battle and try **Prismatic**, **Galaxy**, **Gold**, **Shadow**, and **Crimson Nebula**. Normal removes the effects. You can also borrow Charizard, Gengar or Lucario for their own shapes.
+
+This remains **procedural fan-art ornamentation on existing animated SpriteCollab sprites**, not new hand-drawn Mega-form sprite sheets or a finished species-specific alternate-sprite collection. The next art stage is individual transparent sprite sheets per Pokémon and skin.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
