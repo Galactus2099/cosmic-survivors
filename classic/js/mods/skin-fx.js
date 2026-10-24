@@ -179,6 +179,10 @@
     ctx.restore();
   }
   function render(base,anim,ctx,x,y,opts,skin){
+    // The special Mega Galaxy artwork is active only after Charizard X/Y evolves.
+    // Every other creature/skin keeps the existing original animation pipeline.
+    const mega=window.CosmicMegaGalaxy&&window.CosmicMegaGalaxy.isApplicable(anim,skin);
+    if(anim)anim.cosmicGalaxyMegaActive=!!mega;
     if(!skin||skin.id==='normal'){base.call(anim,ctx,x,y,opts);return;}
     const id=skin.id,m=window.G&&G.Sprites&&G.Sprites.animMeta&&G.Sprites.animMeta(anim.dex,anim.cur,anim.shiny);
     const k=window.G&&G.Sprites&&G.Sprites.PX*anim.scale;
@@ -190,7 +194,13 @@
     if(!tex||!m||!k||!w||!h||cw>512||ch>512||typeof ctx.drawImage!=='function'||typeof tex.createLinearGradient!=='function'){
       ctx.save();ctx.filter=filters[id]||skin.filter||'none';base.call(anim,ctx,x,y,opts);ctx.restore();return;
     }
-    if(opts&&opts.flash){base.call(anim,ctx,x,y,opts);return;} // respect original hurt/white flash
+    if(mega){
+      // The partial back ring sits BEHIND Charizard's body.
+      window.CosmicMegaGalaxy.drawUnderlay(ctx,anim,x,y);
+      // The pre-rendered Mega frame covers the entire silhouette, head included.
+      if(window.CosmicMegaGalaxy.drawSprite(ctx,anim,x,y,opts,skin))return;
+    }
+    if(opts&&opts.flash&&!mega){base.call(anim,ctx,x,y,opts);return;} // original hurt flash
     // Pixel-baked Mewtwo variants are real standalone transparent animation
     // atlases. When ready, draw them directly without piling procedural
     // material/crown layers over the hand-placed crystals and stars.
