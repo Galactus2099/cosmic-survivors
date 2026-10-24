@@ -1,6 +1,6 @@
 # Cosmic Survivors 🌌
 
-A Pokémon-inspired, browser-based bullet-heaven survival prototype with Shadow, Gold, Prismatic, Galaxy and fusion variants. **Version 0.4** is being developed on the `feature/evolution-combat-v04` branch.
+A Pokémon-inspired, browser-based bullet-heaven survival prototype with Shadow, Gold, Prismatic, Galaxy and fusion variants. **Version 0.5 — Rift Realms** introduces distinct dungeon environments, new enemy silhouettes, and telegraphed radial attacks.
 
 ## Play
 
@@ -25,7 +25,7 @@ Changes on feature branches can be reviewed in pull requests before merging to `
 
 ## Development notes
 
-See [CHANGELOG.md](CHANGELOG.md) for v0.4 details. This one-file game is a prototype; modularizing the engine and adding authored animations/assets are planned improvements. Browser rendering regression testing is still required after the new version is merged.
+See [CHANGELOG.md](CHANGELOG.md) for v0.5 details. This one-file game is a prototype; modularizing the engine and adding authored animations/assets are planned improvements. Browser rendering regression testing is still required after the new version is merged.
 
 **Rights:** The Pokémon-themed fan artwork belongs to its respective rights holders and is not cleared for commercial distribution. New original creatures and properly licensed artwork are recommended for a commercial version.
 
