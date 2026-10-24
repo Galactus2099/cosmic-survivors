@@ -183,22 +183,31 @@
     const id=skin.id,m=window.G&&G.Sprites&&G.Sprites.animMeta&&G.Sprites.animMeta(anim.dex,anim.cur,anim.shiny);
     const k=window.G&&G.Sprites&&G.Sprites.PX*anim.scale;
     const w=m&&Math.ceil(m.w*k),h=m&&Math.ceil(m.h*k);
-    if(!tex||!m||!k||!w||!h||w>512||h>512||typeof ctx.drawImage!=='function'||typeof tex.createLinearGradient!=='function'){
+    const fitted=!!(window.CosmicSpeciesArt&&window.CosmicSpeciesArt.supported&&
+      window.CosmicSpeciesArt.supported(anim.dex)&&anim.cur!=='Faint');
+    const pad=fitted?Math.max(6,Math.ceil(k*9)):0;
+    const cw=w+pad*2,ch=h+pad*2;
+    if(!tex||!m||!k||!w||!h||cw>512||ch>512||typeof ctx.drawImage!=='function'||typeof tex.createLinearGradient!=='function'){
       ctx.save();ctx.filter=filters[id]||skin.filter||'none';base.call(anim,ctx,x,y,opts);ctx.restore();return;
     }
     if(opts&&opts.flash){base.call(anim,ctx,x,y,opts);return;} // respect original hurt/white flash
-    if(temp.width!==w)temp.width=w;
-    if(temp.height!==h)temp.height=h;
+    if(temp.width!==cw)temp.width=cw;
+    if(temp.height!==ch)temp.height=ch;
     tex.setTransform(1,0,0,1,0,0);
-    tex.clearRect(0,0,w,h);
+    tex.clearRect(0,0,cw,ch);
     tex.imageSmoothingEnabled=false;
     tex.save();tex.filter=filters[id]||'none';
     // Draw base frame with its feet at the same local offset as the world frame.
-    base.call(anim,tex,m.ax*k,m.ay*k,{...opts,alpha:1});
+    base.call(anim,tex,m.ax*k+pad,m.ay*k+pad,{...opts,alpha:1});
     tex.restore();
     const t=performance.now()/1000;
-    material(tex,id,w,h,t);
-    const dx=Math.round(x-m.ax*k),dy=Math.round(y-m.ay*k);
+    material(tex,id,cw,ch,t);
+    // Additional body-specific crest/armor/gem geometry follows each sprite
+    // frame's feet anchor, keeping Walk/Attack animations intact.
+    if(window.CosmicSpeciesArt&&window.CosmicSpeciesArt.apply){
+      window.CosmicSpeciesArt.apply(tex,anim,id,m,k,t,pad);
+    }
+    const dx=Math.round(x-m.ax*k-pad),dy=Math.round(y-m.ay*k-pad);
     const prior=ctx.globalAlpha;
     if(opts&&opts.alpha!=null)ctx.globalAlpha*=opts.alpha;
     ctx.drawImage(temp,dx,dy);

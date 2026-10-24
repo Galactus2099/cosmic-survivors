@@ -85,7 +85,7 @@
   function menu(){
     const overlay=document.createElement('div');
     overlay.id='cosmic-overlay';
-    overlay.innerHTML='<div class="cosmic-panel" role="dialog" aria-modal="true" aria-label="Cosmic wardrobe"><button id="cosmic-close" aria-label="Close">✕</button><div class="cosmic-kicker">COSMIC SURVIVORS · FAN MOD</div><h2>Variants & Halloween</h2><p>Change your current partner\'s look. Spend Spirit Lanterns earned from every 25 enemies defeated during a run.</p><div class="cosmic-stats"></div><div class="cosmic-grid" id="cosmic-skin-grid"></div><div class="cosmic-mega" id="cosmic-mega"></div><div class="cosmic-event" id="cosmic-event"></div><p class="cosmic-footnote">Visual effects now use animated procedural textures, particles and highlights applied to the existing sprites; bespoke species-specific sprite art remains future work. Mega now appears as a rare mid-run Unique card; authentic alternate Mega sprite sheets remain future work. Saves are local to this browser.</p></div>';
+    overlay.innerHTML='<div class="cosmic-panel" role="dialog" aria-modal="true" aria-label="Cosmic wardrobe"><button id="cosmic-close" aria-label="Close">✕</button><div class="cosmic-kicker">COSMIC SURVIVORS · FAN MOD</div><h2>Variants & Halloween</h2><p>Change your current partner\'s look. Spend Spirit Lanterns earned from every 25 enemies defeated during a run.</p><div class="cosmic-stats"></div><div class="cosmic-grid" id="cosmic-skin-grid"></div><div class="cosmic-mega" id="cosmic-mega"></div><div class="cosmic-event" id="cosmic-event"></div><p class="cosmic-footnote">Visual effects now use animated procedural textures, particles and highlights applied to the existing sprites; Mewtwo, Charizard, Gengar and Lucario have additional fitted procedural crown, armor, gem and sigil details. Hand-painted alternate sprite sheets remain future work. Mega now appears as a rare mid-run Unique card; authentic alternate Mega sprite sheets remain future work. Saves are local to this browser.</p></div>';
     document.body.appendChild(overlay);
     const button=document.createElement('button');
     button.id='cosmic-open';button.textContent='✦ Cosmic Wardrobe / Halloween';
@@ -99,16 +99,18 @@
   function render(){
     const root=document.getElementById('cosmic-overlay');if(!root)return;
     const dex=currentDex(),name=window.G&&G.DEX_BY&&G.DEX_BY[dex]?G.DEX_BY[dex].name:'current partner',selected=currentSkin();
-    root.querySelector('.cosmic-stats').textContent=name+' · #'+(dex||'?')+'  |  🎃 '+money()+' Spirit Lanterns';
+    const tailored=!!(window.CosmicSpeciesArt&&window.CosmicSpeciesArt.supported(dex));
+    root.querySelector('.cosmic-stats').textContent=name+' · #'+(dex||'?')+'  |  🎃 '+money()+' Spirit Lanterns'+(tailored?' · ✦ CUSTOM BODY DETAILS':'');
     const grid=root.querySelector('#cosmic-skin-grid');grid.replaceChildren();
     for(const s of SKINS){
       const owned=s.cost===0||save.claimed||s.id===selected||!!save['skinUnlocked_'+s.id];
       const el=document.createElement('button');
       el.className='cosmic-skin'+(s.id===selected?' chosen':'');
       el.dataset.skin=s.id;
+      el.dataset.fitted=tailored&&s.id!=='normal'?'1':'0';
       const descriptions={normal:'Classic sprite',shadow:'Midnight smoke & violet runes',gold:'Animated metallic light',prismatic:'Rainbow crystals & sparkles',galaxy:'Nebula clouds & starfield',crimson:'Crimson flames & gold stardust'};
       el.style.setProperty('--skin-color',s.accent);
-      el.innerHTML='<span class="cosmic-orb"></span><b>'+s.title+'</b><small class="cosmic-material">'+descriptions[s.id]+'</small><small>'+(s.id===selected?'✓ EQUIPPED':owned?'Equip':'🎃 '+s.cost+' Lanterns')+'</small>';
+      el.innerHTML='<span class="cosmic-orb"></span><b>'+s.title+'</b><small class="cosmic-material">'+descriptions[s.id]+'</small>'+(tailored&&s.id!=='normal'?'<small class="cosmic-fitted">✦ SPECIES DETAILS</small>':'')+'<small>'+(s.id===selected?'✓ EQUIPPED':owned?'Equip':'🎃 '+s.cost+' Lanterns')+'</small>';
       el.onclick=()=>{
         if(!owned){if(money()<s.cost){notify('Earn more Lanterns in dungeon runs!');return;}save.lanterns-=s.cost;save['skinUnlocked_'+s.id]=true;}
         if(!dex){notify('Choose a partner first');return;}
