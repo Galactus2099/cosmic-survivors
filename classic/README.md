@@ -36,6 +36,24 @@ Open **https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1**
 
 Waves mode now has Halloween ambiance with grave markers, pumpkins, violet ground haze, runic sigils and floating spectral motes. The decorative details are nonblocking and share the existing collision-safe maps. A unique Haunted Hollow biome with new objectives and event encounters is planned; **this is currently a visual scenery layer, not the full Doofcraft event map.**
 
+## Cosmic Skins 2.0 — distinctive animated materials
+
+The five special appearance families now change the **material visible inside your animated Pokémon sprite**, not only its color.
+
+- **Shadow:** deep ink-black/violet shading with drifting smoke.
+- **Gold:** moving metallic highlights, golden reflective bands and sparkles.
+- **Prismatic:** shifting rainbow colors, crystal facets and sharp multicolor glints.
+- **Galaxy:** rich blue/purple nebula shading with an animated starfield and twinkling points.
+- **Crimson Nebula:** crimson-black-purple material, gold accents and sparks.
+
+All five still use the **original animated sprite frames** for moving, attacking, being hurt and fainting. These are procedurally generated textures, not entirely separate, hand-painted sprite sheets or new anatomical forms. The in-game Wardrobe now previews the families with distinct animated material orbs.
+
+### Compare quickly without grinding
+
+Open [Guest Test Lab](https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1), choose Guest, click TEST LAB, borrow Mewtwo and start a Solo Test. While playing, reopen TEST LAB and choose **Normal**, **Prismatic**, **Galaxy**, **Gold**, **Shadow** or **Crimson Nebula** from the skin dropdown, then close the panel to see the difference. These previews do not use currency or permanently unlock skins.
+
+Real skin unlocks, Spirit Lanterns, Waves, Candy Corn, Halloween Shop and Mega Evolution remain as before. If you use a normal local account instead of Guest, the Lab won't alter it.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
