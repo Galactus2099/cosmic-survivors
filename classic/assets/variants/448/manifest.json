@@ -1,0 +1,125 @@
+{
+  "dex": 448,
+  "species": "Lucario",
+  "version": 1,
+  "skins": [
+    "prismatic",
+    "galaxy"
+  ],
+  "license_note": "Derivative from SpriteCollab noncommercial Pok\u00e9mon art, CC BY-NC 4.0; preserve classic/CREDITS.md.",
+  "generator": "tools/build_more_variant_atlases.py",
+  "atlases": {
+    "prismatic/Idle": {
+      "width": 192,
+      "height": 448,
+      "frames": 6,
+      "directions": 8,
+      "sha256": "a7dadeb32d7129114da4230151c08e811c9b4ce6ac78c7581ee7a15cf0ee7c0a",
+      "bytes": 52061
+    },
+    "prismatic/Walk": {
+      "width": 128,
+      "height": 384,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "c81ac61a00e1319a153f6dfc15877759de39d8f4a274d2010dc4a9557ad8e062",
+      "bytes": 23848
+    },
+    "prismatic/Attack": {
+      "width": 960,
+      "height": 576,
+      "frames": 15,
+      "directions": 8,
+      "sha256": "ff360b0cb5ec58802caedcd291f8a400281a94fe8650788f0924b2a0eacc99b6",
+      "bytes": 118213
+    },
+    "prismatic/Shoot": {
+      "width": 960,
+      "height": 576,
+      "frames": 15,
+      "directions": 8,
+      "sha256": "ff360b0cb5ec58802caedcd291f8a400281a94fe8650788f0924b2a0eacc99b6",
+      "bytes": 118213
+    },
+    "prismatic/Charge": {
+      "width": 320,
+      "height": 320,
+      "frames": 10,
+      "directions": 8,
+      "sha256": "64551c6efb2a9e999fa808ecacc9538816d2fd0993601773e70845c239b372e4",
+      "bytes": 40852
+    },
+    "prismatic/Hurt": {
+      "width": 80,
+      "height": 448,
+      "frames": 2,
+      "directions": 8,
+      "sha256": "d2570e55324d01552fbfc05ab3d3917d13402fe9b1c4e8601d20532e706ada10",
+      "bytes": 22023
+    },
+    "prismatic/Faint": {
+      "width": 128,
+      "height": 384,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "3bf3ecf84b137a713261efb90a70e1a328da13cee4fa1e3d57be4a9756dc9bd0",
+      "bytes": 14999
+    },
+    "galaxy/Idle": {
+      "width": 192,
+      "height": 448,
+      "frames": 6,
+      "directions": 8,
+      "sha256": "ed0206ac55f28ba699c96a46aa972f314b0ce1cd25e0d57835ebde2037a7be36",
+      "bytes": 55385
+    },
+    "galaxy/Walk": {
+      "width": 128,
+      "height": 384,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "8d828f066e04b6aad832f7ac7ae34c14daee5d87453a00f955ea978dcff67288",
+      "bytes": 29011
+    },
+    "galaxy/Attack": {
+      "width": 960,
+      "height": 576,
+      "frames": 15,
+      "directions": 8,
+      "sha256": "e28b7e79b764d0e7f897f97eab20f2bee6abb82c1374c35ab686a0fad72ae7ff",
+      "bytes": 130296
+    },
+    "galaxy/Shoot": {
+      "width": 960,
+      "height": 576,
+      "frames": 15,
+      "directions": 8,
+      "sha256": "8685ee215b4f17fc07ec1e08baf67185f86a23d1563c01fa36e6cabea83d01bd",
+      "bytes": 130634
+    },
+    "galaxy/Charge": {
+      "width": 320,
+      "height": 320,
+      "frames": 10,
+      "directions": 8,
+      "sha256": "52a3ed58dd05b5fbf01a38bc0f044e81cdcc47b412d408059b94333b475e9ef3",
+      "bytes": 52797
+    },
+    "galaxy/Hurt": {
+      "width": 80,
+      "height": 448,
+      "frames": 2,
+      "directions": 8,
+      "sha256": "551b8ae0b75f6b7fe328e86726441a16be8e12e8909fdc7e3022605f1cc4876a",
+      "bytes": 24265
+    },
+    "galaxy/Faint": {
+      "width": 128,
+      "height": 384,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "3f8027942cace72cbc03feb60d7c27a036c04275c24bc90c30df139b9f04b4b7",
+      "bytes": 13901
+    }
+  }
+}
