@@ -1,0 +1,44 @@
+name: Species-anchored skin regression
+on:
+  push:
+    branches: [feature/species-skin-ornaments-v1]
+    paths:
+      - 'classic/js/mods/**'
+      - 'classic/index.html'
+      - 'tests/species-art.test.cjs'
+      - '.github/workflows/test-species-art.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/**'
+      - 'classic/index.html'
+      - 'tests/species-art.test.cjs'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check classic/js/mods/species-art.js
+          node --check classic/js/mods/skin-fx.js
+          node --check classic/js/mods/cosmic.js
+          node --check classic/js/mods/halloween-waves.js
+          node --check classic/js/mods/mega-evolution.js
+      - name: Run species art checks
+        run: node tests/species-art.test.cjs
+      - name: Run existing game regressions
+        run: |
+          node tests/skin-fx.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Verify build references and licensed media notices
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          h=Path('classic/index.html').read_text()
+          assert h.index('js/mods/species-art.js')<h.index('js/mods/skin-fx.js')<h.index('js/mods/cosmic.js')
+          assert Path('classic/CREDITS.md').exists() and Path('classic/LICENSE').exists()
+          assert Path('classic-mods/species-art.js').read_text()==Path('classic/js/mods/species-art.js').read_text()
+          print('Sprite module load order and credit files verified')
+          PY
