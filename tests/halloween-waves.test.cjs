@@ -22,7 +22,7 @@ const G={
 };
 G.Sprites.Animator.prototype.draw=function(){};
 const window={G};
-const document={readyState:'loading',addEventListener(){},querySelector(){return null}};
+const document={readyState:'loading',body:{classList:{toggle(){}}},addEventListener(){},querySelector(){return null}};
 const context={window,G,document,console,performance:{now(){return 1000}},setInterval(){return 1},clearInterval(){},setTimeout(){return 1},clearTimeout(){},Math};
 vm.runInNewContext(fs.readFileSync('classic/js/mods/halloween-waves.js','utf8'),context,{filename:'halloween-waves.js'});
 assert.equal(typeof window.CosmicHalloween.startWaves,'function');
