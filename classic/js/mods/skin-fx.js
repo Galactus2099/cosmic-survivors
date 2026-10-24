@@ -182,7 +182,8 @@
     // The special Mega Galaxy artwork is active only after Charizard X/Y evolves.
     // Every other creature/skin keeps the existing original animation pipeline.
     const mega=window.CosmicMegaGalaxy&&window.CosmicMegaGalaxy.isApplicable(anim,skin);
-    if(anim)anim.cosmicGalaxyMegaActive=!!mega;
+    const prismaticMega=window.CosmicMegaPrismatic&&window.CosmicMegaPrismatic.applicable(anim,skin);
+    if(anim){anim.cosmicGalaxyMegaActive=!!mega;anim.cosmicPrismaticMegaActive=!!prismaticMega;}
     if(!skin||skin.id==='normal'){base.call(anim,ctx,x,y,opts);return;}
     const id=skin.id,m=window.G&&G.Sprites&&G.Sprites.animMeta&&G.Sprites.animMeta(anim.dex,anim.cur,anim.shiny);
     const k=window.G&&G.Sprites&&G.Sprites.PX*anim.scale;
@@ -200,7 +201,13 @@
       // The pre-rendered Mega frame covers the entire silhouette, head included.
       if(window.CosmicMegaGalaxy.drawSprite(ctx,anim,x,y,opts,skin))return;
     }
-    if(opts&&opts.flash&&!mega){base.call(anim,ctx,x,y,opts);return;} // original hurt flash
+    if(prismaticMega){
+      // New Mewtwo X/Y crystal wings and armor are actual pre-rendered frame
+      // pixels, not props hovering over a normal Prismatic Mewtwo body.
+      window.CosmicMegaPrismatic.underlay(ctx,anim,x,y);
+      if(window.CosmicMegaPrismatic.drawSprite(ctx,anim,x,y,opts,skin))return;
+    }
+    if(opts&&opts.flash&&!mega&&!prismaticMega){base.call(anim,ctx,x,y,opts);return;} // original hurt flash
     // Pixel-baked Mewtwo variants are real standalone transparent animation
     // atlases. When ready, draw them directly without piling procedural
     // material/crown layers over the hand-placed crystals and stars.
