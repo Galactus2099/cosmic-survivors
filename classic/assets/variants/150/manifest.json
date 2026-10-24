@@ -1,0 +1,125 @@
+{
+  "source": "SpriteCollab via JPTER78 Pok\u00e9Survivor historical MIT-era fan fork",
+  "license_note": "Derivative of noncommercial SpriteCollab sprites; keep classic/CREDITS.md and CC BY-NC 4.0 attribution.",
+  "generator": "tools/build_variant_atlases.py",
+  "version": 1,
+  "dex": 150,
+  "skins": [
+    "prismatic",
+    "galaxy"
+  ],
+  "atlases": {
+    "prismatic/Idle": {
+      "size": 58715,
+      "width": 256,
+      "height": 512,
+      "frames": 8,
+      "directions": 8,
+      "sha256": "6110ed6240da57194c44f0848ec78e5197a371bbe67a99f7e0dea7a12ca45f17"
+    },
+    "prismatic/Walk": {
+      "size": 69537,
+      "width": 288,
+      "height": 448,
+      "frames": 6,
+      "directions": 8,
+      "sha256": "604e6c931af20c073643ec7b83b61b0512f32748b1b77550108c986fbc1b1641"
+    },
+    "prismatic/Attack": {
+      "size": 133690,
+      "width": 880,
+      "height": 704,
+      "frames": 11,
+      "directions": 8,
+      "sha256": "47607961c2f70cdbab1911c7e1119dfd8b5fef1d3a18b0ab3c0d190510e70760"
+    },
+    "prismatic/Shoot": {
+      "size": 96932,
+      "width": 728,
+      "height": 512,
+      "frames": 13,
+      "directions": 8,
+      "sha256": "9263ca58999861bc41c6f0199b0eb7ea8686a61f6b0da1ed41658f5161105219"
+    },
+    "prismatic/Charge": {
+      "size": 46155,
+      "width": 320,
+      "height": 448,
+      "frames": 10,
+      "directions": 8,
+      "sha256": "c75e7a1728e04eaee3180acbe8e134ccd52b8baceaf3c4b39ad62cc32ad3ff20"
+    },
+    "prismatic/Hurt": {
+      "size": 27002,
+      "width": 96,
+      "height": 576,
+      "frames": 2,
+      "directions": 8,
+      "sha256": "890f3d9e5d294083ff5f63755b6b0ba7540b639caf8c2564317d5f8666d009da"
+    },
+    "prismatic/Faint": {
+      "size": 20916,
+      "width": 160,
+      "height": 384,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "7872038bd4d7780b1d72e4cdd237eabfb119d0a1edfc56e075c41994fe4db547"
+    },
+    "galaxy/Idle": {
+      "size": 63629,
+      "width": 256,
+      "height": 512,
+      "frames": 8,
+      "directions": 8,
+      "sha256": "a0ca11f02bfa17bd743ba0096639683a28c0b3aca252820e866d637e13c07f8d"
+    },
+    "galaxy/Walk": {
+      "size": 68576,
+      "width": 288,
+      "height": 448,
+      "frames": 6,
+      "directions": 8,
+      "sha256": "81e2279c4d079228fd75cb98b373c4d886e133f61a9865affd87d30f0e25be8d"
+    },
+    "galaxy/Attack": {
+      "size": 137069,
+      "width": 880,
+      "height": 704,
+      "frames": 11,
+      "directions": 8,
+      "sha256": "803cdd1c785f756e0beb5e1b5ab85fa090bf600aad581f3d8a8cc9d1f25166e8"
+    },
+    "galaxy/Shoot": {
+      "size": 106042,
+      "width": 728,
+      "height": 512,
+      "frames": 13,
+      "directions": 8,
+      "sha256": "9e36a80a7b4bff6934b33f33dbe46f89756266dcb825c88d1709b8bf7682b4ab"
+    },
+    "galaxy/Charge": {
+      "size": 55643,
+      "width": 320,
+      "height": 448,
+      "frames": 10,
+      "directions": 8,
+      "sha256": "83984ef07922cf21081de23bf073e7026795eb5d2dbc07382e50541adbb164ec"
+    },
+    "galaxy/Hurt": {
+      "size": 28227,
+      "width": 96,
+      "height": 576,
+      "frames": 2,
+      "directions": 8,
+      "sha256": "8805c58d1114fca5e001cf34a293f6ec1a0981163cc6bbbf6b8255392f5b695e"
+    },
+    "galaxy/Faint": {
+      "size": 21272,
+      "width": 160,
+      "height": 384,
+      "frames": 4,
+      "directions": 8,
+      "sha256": "cf00242cd398fa74ad7017c38dfab1d7d5beedc3ffd265199bf32817489860e7"
+    }
+  }
+}
