@@ -1,0 +1,18 @@
+/* Cosmetic Wardrobe material previews. Actual in-game shader is skin-fx.js */
+.cosmic-skin[data-skin] .cosmic-orb{position:relative;overflow:hidden;isolation:isolate}
+.cosmic-skin[data-skin] .cosmic-orb:after{content:'';position:absolute;inset:-30%;mix-blend-mode:screen;opacity:.7;transform:translateX(-22%) rotate(24deg);animation:cosmic-orb-shimmer 3s linear infinite}
+.cosmic-skin[data-skin="prismatic"] .cosmic-orb{background:conic-gradient(from 90deg,#ff638e,#ffbf69,#f5f4a9,#7bffd3,#62aafa,#ad76ff,#ff638e);box-shadow:0 0 25px #b478ff,inset 0 0 13px #fff8}
+.cosmic-skin[data-skin="prismatic"] .cosmic-orb:after{background:repeating-linear-gradient(67deg,transparent 0 8px,#fff8 10px,transparent 12px 20px);mix-blend-mode:overlay}
+.cosmic-skin[data-skin="galaxy"] .cosmic-orb{background:radial-gradient(circle at 42% 25%,#fbd9ff 0 2px,transparent 3px),radial-gradient(circle at 75% 57%,#fff 0 1px,transparent 2px),radial-gradient(circle at 35% 74%,#6ff5ff 0 2px,transparent 4px),radial-gradient(ellipse at 30% 40%,#874eaf,#183782 49%,#080621);box-shadow:0 0 25px #685dff}
+.cosmic-skin[data-skin="galaxy"] .cosmic-orb:after{background:radial-gradient(ellipse,#d363cf5d,transparent 66%);animation-duration:7s}
+.cosmic-skin[data-skin="gold"] .cosmic-orb{background:linear-gradient(112deg,#7d4a11 2%,#c58625 28%,#fff5ad 42%,#fffde4 48%,#ab731c 62%,#dba93a 83%,#5e3c16);box-shadow:0 0 25px #eec25e}
+.cosmic-skin[data-skin="gold"] .cosmic-orb:after{background:linear-gradient(94deg,transparent 42%,#fff9e5b8 49%,transparent 55%);animation-duration:2.8s}
+.cosmic-skin[data-skin="shadow"] .cosmic-orb{background:radial-gradient(ellipse at 30% 33%,#8756bd,#2d194e 48%,#090817 80%);box-shadow:0 0 25px #7e3fba}
+.cosmic-skin[data-skin="shadow"] .cosmic-orb:after{background:radial-gradient(ellipse at 60% 40%,#b476ff99,transparent 45%);animation-duration:5s}
+.cosmic-skin[data-skin="crimson"] .cosmic-orb{background:radial-gradient(ellipse at 35% 30%,#ffc66e 0,#b82e49 36%,#2e0e31 68%,#0a0715);box-shadow:0 0 25px #f74d73}
+.cosmic-skin[data-skin="crimson"] .cosmic-orb:after{background:repeating-conic-gradient(from 65deg,#f5b05755 0 15deg,transparent 15deg 56deg,#e3336944 57deg 86deg,transparent 87deg 125deg)}
+.cosmic-skin[data-skin="normal"] .cosmic-orb:after{animation:none;opacity:0}
+.cosmic-skin .cosmic-material{min-height:24px;line-height:1.15;text-align:center;color:#e9d8f2;font-size:10px;display:block;max-width:125px}
+.cosmic-skin.chosen{box-shadow:inset 0 0 0 1px #f6ca7499,0 0 17px #c390ff55}
+@keyframes cosmic-orb-shimmer{from{transform:translateX(-35%) rotate(24deg)}to{transform:translateX(35%) rotate(24deg)}}
+@media(prefers-reduced-motion:reduce){.cosmic-skin[data-skin] .cosmic-orb:after{animation:none!important}}

@@ -1,0 +1,49 @@
+name: Cosmetic shader regression
+on:
+  push:
+    branches: [feature/cosmic-skin-shaders-v1]
+    paths:
+      - 'classic/js/mods/skin-fx.js'
+      - 'classic/js/mods/cosmic.js'
+      - 'classic/css/skin-fx.css'
+      - 'classic/index.html'
+      - 'tests/skin-fx.test.cjs'
+      - '.github/workflows/test-skins.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/skin-fx.js'
+      - 'classic/js/mods/cosmic.js'
+      - 'classic/css/skin-fx.css'
+      - 'classic/index.html'
+      - 'tests/skin-fx.test.cjs'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check classic/js/mods/skin-fx.js
+          node --check classic/js/mods/cosmic.js
+          node --check classic/js/mods/halloween-waves.js
+          node --check classic/js/mods/mega-evolution.js
+          node --check classic/js/mods/test-lab.js
+      - name: Shader contract checks
+        run: node tests/skin-fx.test.cjs
+      - name: Full classic extension regressions
+        run: |
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Validate load order and attribution
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          html=Path('classic/index.html').read_text()
+          assert html.index('js/mods/skin-fx.js')<html.index('js/mods/cosmic.js')
+          assert html.index('js/mods/cosmic.js')<html.index('js/mods/halloween-waves.js')
+          assert 'css/skin-fx.css' in html
+          assert 'CosmicSkinFX.render' in Path('classic/js/mods/cosmic.js').read_text()
+          assert Path('classic/CREDITS.md').is_file() and Path('classic/LICENSE').is_file()
+          print('Cosmetic pipeline, legacy module order and licenses verified.')
+          PY
