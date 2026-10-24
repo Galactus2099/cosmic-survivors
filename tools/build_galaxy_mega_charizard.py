@@ -67,6 +67,10 @@ def reskin(src,meta,form):
     base[:,:,0]+=stripe*(29 if form=="y" else 12)
     base[:,:,1]+=stripe*(28 if form=="x" else 10)
     base[:,:,2]+=stripe*39
+    # Violet-blue must dominate every colored pixel, including the warmest
+    # Mega Y nebula streaks: no orange can sneak through on bright original
+    # Charizard highlights or the belly.
+    base[:,:,2]=np.maximum(base[:,:,2],base[:,:,0]*.98+13)
     result=src.copy()
     result[:,:,:3]=np.clip(base*m[...,None],0,255).astype(np.uint8)
     # Preserve the original silhouette's transparency verbatim.
