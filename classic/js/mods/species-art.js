@@ -162,7 +162,7 @@
       polygon(c,[[x,y-6],[x+2,y-13],[x+4,y-7],[x+5,y-1],[x-3,y+1]],'#e93a5b',colors[1]);
     }
   }
-  function apply(ctx,anim,skin,m,k,t){
+  function apply(ctx,anim,skin,m,k,t,pad=0){
     if(!ctx||!anim||!skin||!m||!Number.isFinite(k)||k<=0)return false;
     const dex=Number(anim.dex);
     const id=typeof skin==='string'?skin:skin.id;
@@ -171,7 +171,7 @@
     // Do not decorate fallback frames or unsupported species.
     const dir=Math.max(0,Math.min(7,Number(anim.dir)||0));
     ctx.save();
-    ctx.translate(m.ax*k,m.ay*k);
+    ctx.translate(m.ax*k+pad,m.ay*k+pad);
     ctx.scale(k,k);
     if(dir===6||dir===7||dir===5)ctx.scale(-1,1);
     // Slight movement is tied to the animated frame, never screen pixels.
