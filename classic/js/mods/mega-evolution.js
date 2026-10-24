@@ -43,6 +43,12 @@
     if(!anim.cosmicPlayer||!GAME()||!GAME().player)return;
     const pl=GAME().player,mega=pl.cosmicForm;
     if(!mega)return;
+    // Use the approved planets + half-halos, not generic floating diamonds,
+    // for Galaxy Mega Charizard. This is run-specific and sprite-aware.
+    if(anim.cosmicGalaxyMegaActive&&window.CosmicMegaGalaxy){
+      window.CosmicMegaGalaxy.drawAura(ctx,anim,x,y);
+      return;
+    }
     const t=performance.now()/1000,scale=anim.scale||1;
     const rad=Math.max(19,pl.r*1.3);
     ctx.save();
@@ -81,6 +87,7 @@
     player.hp=Math.min(player.maxHp,player.hp+(player.maxHp-oldMax)+oldMax*.2);
     player.atkMul*=atk;player.spdMul*=spd;player.cdMul*=cd;
     player.cosmicForm={name:form.name,form:form.form,color:form.color};
+    if(Number(player.dex)===6&&window.CosmicMegaGalaxy)window.CosmicMegaGalaxy.warmup(form.form);
     player.invuln=Math.max(player.invuln||0,2.5);
     latestForm=form.name;
     record(form);
