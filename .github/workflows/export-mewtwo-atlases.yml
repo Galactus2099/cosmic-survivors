@@ -1,0 +1,62 @@
+name: Export Mewtwo Pixel Sprite Atlases
+on:
+  push:
+    branches: [feature/mewtwo-baked-variant-atlases]
+    paths:
+      - 'tools/build_variant_atlases.py'
+      - '.github/workflows/export-mewtwo-atlases.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/mewtwo-baked-variant-atlases
+          fetch-depth: 1
+      - name: Install image tools
+        run: python3 -m pip install --user --quiet pillow numpy
+      - name: Build actual frame PNGs
+        run: python3 tools/build_variant_atlases.py --verify
+      - name: Verify geometry and transparent background
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import json
+          root=Path('classic/assets/variants/150')
+          m=json.loads((root/'manifest.json').read_text())
+          assert m['version']==1 and len(m['atlases'])==14
+          for skin in ('prismatic','galaxy'):
+            for anim in ('Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'):
+              f=root/skin/(anim+'.png')
+              i=Image.open(f).convert('RGBA')
+              orig=Image.open(Path('classic/assets/pokemon/150')/(anim+'.png')).convert('RGBA')
+              assert i.size==orig.size and i.getchannel('A').getextrema()[0]==0
+              assert f.stat().st_size>300
+              print('VERIFIED',skin,anim,i.size,f.stat().st_size)
+          PY
+      - name: Run skin and original gameplay regression tests
+        run: |
+          node --check classic/js/mods/sprite-atlas.js
+          node --check classic/js/mods/skin-fx.js
+          node --check classic/js/mods/test-lab.js
+          node tests/sprite-atlas.test.cjs
+          node tests/skin-fx.test.cjs
+          node tests/species-art.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Commit generated binary atlases to isolated branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add classic/assets/variants/150
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: add transparent animated Prismatic and Galaxy Mewtwo PNG sprite sheets'
+            git push origin HEAD:feature/mewtwo-baked-variant-atlases
+          fi
