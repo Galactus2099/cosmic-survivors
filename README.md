@@ -1,22 +1,32 @@
 # Cosmic Survivors 🌌
 
-A playable browser-based bullet-heaven survival game prototype with galaxy-inspired cosmetic variants.
+A Pokémon-inspired, browser-based bullet-heaven survival prototype with Shadow, Gold, Prismatic, Galaxy and fusion variants. **Version 0.4** is being developed on the `feature/evolution-combat-v04` branch.
 
-## Play locally
-Open `index.html` in a modern browser. It is self-contained: styles, JavaScript, and optimized artwork are embedded in the single HTML file.
+## Play
 
-## Included in v0.3
-- Five prototype companions and eight cosmetic looks, including Shadow, Gold, Prismatic, Galaxy, Crimson Nebula, Amethyst Void, and Eclipse Gold
-- Three survival dungeons, auto-attacks, unlockable combat upgrades, bosses, missions, permanent upgrades, and a cosmetic wardrobe
-- Progress saving in browser localStorage
+Choose a companion and dungeon, then press **Enter the dungeon**. The entire game is contained in `index.html`.
 
-## Publish with GitHub Pages
-Go to **Settings → Pages**, select **Deploy from a branch**, choose branch **main**, folder **/(root)**, then save. After Pages finishes deploying, the site should be reachable at https://galactus2099.github.io/cosmic-survivors/.
+- **WASD / Arrow keys** — move (drag on the arena on touchscreens)
+- **Space or Dash button** — dodge forward; 3.5-second recharge
+- **Automatic attacks** — shoot nearby enemies; choose new abilities when leveling up
+- **P / Escape** — pause and resume
+- **Starling evolution** — pick the original creature Starling; evolve into Nebulynx at level 4 and Astralynx at level 8
+- **Final-stage concept Pokémon** — keep their Awakening upgrades at levels 5 and 10 rather than receiving invented canonical evolutions
 
-## Rights
-This is a noncommercial fan prototype that includes Pokémon-inspired/user-provided reference art. The artwork and Pokémon characters are not cleared for commercial distribution. Replace them with original licensed creatures and art before any commercial release.
+Run three dungeons, fight Seers and bosses, gather XP, earn stardust, equip eight cosmetic looks, and buy permanent upgrades. Progress is stored locally in the browser.
 
-## Development
-This repo is separate from `nightfall-monster-rpg`. Do not mix their source trees.
+## Deploying on GitHub Pages
 
-Next steps: refactor the one-file prototype into modular source files; implement original creature art, sprite animation, progression balance, mobile input, accessibility, and cross-browser testing.
+The `main` branch is the release branch. GitHub Pages publishes the website at:
+
+https://galactus2099.github.io/cosmic-survivors/
+
+Changes on feature branches can be reviewed in pull requests before merging to `main`.
+
+## Development notes
+
+See [CHANGELOG.md](CHANGELOG.md) for v0.4 details. This one-file game is a prototype; modularizing the engine and adding authored animations/assets are planned improvements. Browser rendering regression testing is still required after the new version is merged.
+
+**Rights:** The Pokémon-themed fan artwork belongs to its respective rights holders and is not cleared for commercial distribution. New original creatures and properly licensed artwork are recommended for a commercial version.
+
+This repository is independent of Nightfall. Do not modify `nightfall-monster-rpg` when working on Cosmic Survivors.
