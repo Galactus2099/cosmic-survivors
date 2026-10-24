@@ -14,7 +14,7 @@ const off=new Canvas2D(),on=new Canvas2D();
 const canvas={width:0,height:0,getContext(){return off}};
 const window={G:{Sprites:{PX:2,animMeta(){return {w:56,h:60,ax:28,ay:53}}}}};
 const document={createElement(x){assert.equal(x,'canvas');return canvas}};
-const sandbox={window,document,console,Math,performance:{now(){return tick}}};
+const sandbox={window,G:window.G,document,console,Math,performance:{now(){return tick}}};
 vm.runInNewContext(src,sandbox,{filename:'skin-fx.js'});
 const fx=window.CosmicSkinFX;
 assert.ok(fx&&fx.render&&fx.filters&&fx.palette);
