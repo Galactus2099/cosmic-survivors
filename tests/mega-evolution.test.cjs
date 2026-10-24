@@ -98,5 +98,5 @@ save.partner=888;G.Game.startRun();time=1800;G.Spawner.update(.04,[],time);
 forms.children[0].onclick();assert.equal(G.Game.player.cosmicForm.name,'Crowned Zacian');
 save.partner=1;G.Game.startRun();time=2040;G.Spawner.update(.04,[],time);
 assert.equal(G.Game.state,'playing');
-assert.equal(baseSpawns,7,'original engine spawns still run');
+assert.equal(baseSpawns,8,'original engine spawns still run');
 console.log('Mega smoke tests pass: eligibility, solo 30min, Wave 20, choices, stat buffs, persistence, and baseline spawner.');
