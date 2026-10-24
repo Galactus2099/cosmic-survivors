@@ -51,8 +51,10 @@
     if(!a.cosmicPlayer)return;
     const s=eventSave();if(!s)return;
     const dex=Number(G.Game&&G.Game.player&&G.Game.player.dex),t=performance.now()/1000;
-    const phantom=(dex===150&&s.unlocks['shadow-mewtwo'])||(dex===249&&s.unlocks['shadow-lugia']);
-    const pumpkin=!!s.unlocks['pumpkin-aura'],trail=!!s.unlocks['spectral-trail'];
+    const preview=window.CosmicTestLab&&window.CosmicTestLab.safe()?window.CosmicTestLab.previewUnlocks:{};
+    const unlocked=k=>!!(s.unlocks[k]||preview[k]);
+    const phantom=(dex===150&&unlocked('shadow-mewtwo'))||(dex===249&&unlocked('shadow-lugia'));
+    const pumpkin=unlocked('pumpkin-aura'),trail=unlocked('spectral-trail');
     if(!phantom&&!pumpkin&&!trail)return;
     ctx.save();ctx.translate(x,y-6);
     if(pumpkin){ctx.strokeStyle='#ff9f45';ctx.globalAlpha=.65;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,5,24+Math.sin(t*4)*2,11,0,0,6.283);ctx.stroke();}
@@ -168,7 +170,8 @@
   }
   function applyTheme(){
     const s=eventSave();
-    document.body.classList.toggle('hw-haunted',!!(s&&s.unlocks['haunted-backdrop']));
+    const demo=window.CosmicTestLab&&window.CosmicTestLab.safe()&&window.CosmicTestLab.previewUnlocks['haunted-backdrop'];
+    document.body.classList.toggle('hw-haunted',!!(s&&(s.unlocks['haunted-backdrop']||demo)));
   }
   function renderShop(){
     if(!shopRoot)return;
@@ -251,7 +254,18 @@
     };
     const origMenu=G.MenuUI.open;
     G.MenuUI.open=function(...args){const o=origMenu.apply(this,args);applyTheme();return o;};
-    window.CosmicHalloween={state:()=>({waves,round:round&&round.number,phase:round&&round.phase,corn:eventSave()&&eventSave().corn}),startWaves:()=>{pendingWaves=true;G.Game.startRun();},openShop,buy};
+    window.CosmicHalloween={
+      state:()=>({waves,round:round&&round.number,phase:round&&round.phase,corn:eventSave()&&eventSave().corn}),
+      startWaves:()=>{pendingWaves=true;G.Game.startRun();},openShop,buy,applyPreview:applyTheme,
+      qaSetWave(n){
+        const lab=window.CosmicTestLab;
+        if(!(lab&&lab.enabled&&lab.safe())||!waves||!round||G.Game.state!=='playing')return false;
+        const wave=Math.max(1,Math.min(250,Math.floor(Number(n)||1)));
+        G.EnemyMgr.clear();
+        round.number=wave;
+        startWave();return true;
+      }
+    };
   }
 
   wrapGame();

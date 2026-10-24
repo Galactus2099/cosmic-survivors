@@ -18,6 +18,24 @@ Open https://galactus2099.github.io/cosmic-survivors/classic/ and sign in with a
 
 Candy Corn and purchases are saved within your local game account using the existing local save system. **Guest saves are temporary.** Halloween Mode stays available year-round.
 
+## Guest Test Lab (try everything without unlocking)
+
+Open **https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1**
+
+1. Use **Invitado / Guest** mode. If you are already in your real local account, click **Salir / Log out** first, then click **Invitado / Guest**. This does **not** delete your existing local account; sign in again when you finish.
+2. Complete the first-partner introduction if Guest prompts you to do so.
+3. Click **🔬 TEST LAB** in the bottom-right.
+4. Choose a temporary loaner: Charizard, Mewtwo, Gengar, Lucario, Kyogre, Groudon, Zacian, Zamazenta, Venusaur or Blastoise.
+5. Click **Start Solo Test** or **Start Waves Test**.
+6. During your run, click **🔬 TEST LAB** again. Use **Show Mega Choice Now** to see and choose the actual mid-run card immediately, rather than waiting 30 minutes. In Waves, use **Jump to Wave 20** to test the wave-20 stage too.
+7. Choose Shadow, Gold, Prismatic, Galaxy or Crimson Nebula under **Preview skin**. You can also turn on temporary Halloween aura previews.
+
+**Lab safety:** Guest-mode progress is temporary and does not save to your real account. No Pokémon or skins are permanently unlocked, and no real-account Candy Corn or Lanterns are spent. The Test Lab does not appear on the ordinary game URL. For normal progression, remove `?testlab=1` and sign into your existing local account.
+
+## Haunted Hollow (visual first pass)
+
+Waves mode now has Halloween ambiance with grave markers, pumpkins, violet ground haze, runic sigils and floating spectral motes. The decorative details are nonblocking and share the existing collision-safe maps. A unique Haunted Hollow biome with new objectives and event encounters is planned; **this is currently a visual scenery layer, not the full Doofcraft event map.**
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.

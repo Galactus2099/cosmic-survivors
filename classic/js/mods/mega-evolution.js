@@ -202,7 +202,14 @@
     const prevDraw=G.Sprites.Animator.prototype.draw;
     G.Sprites.Animator.prototype.draw=function(ctx,x,y,opt){prevDraw.call(this,ctx,x,y,opt);aura(ctx,this,x,y);};
     // Developer-only interface for offline unit tests, not a public in-game cheat.
-    window.CosmicMega={eligible,formsFor,current:()=>player&&player.cosmicForm?player.cosmicForm:null,history};
+    function demoOffer(){
+      const lab=window.CosmicTestLab;
+      if(!(lab&&lab.enabled&&lab.safe())||!G.Game||G.Game.state!=='playing')return false;
+      const p=G.Game.player;
+      if(!p||p.dead||p.cosmicForm||!eligible(p.dex)||offer)return false;
+      player=p;offer=formsFor(p.dex);queueOffer();return true;
+    }
+    window.CosmicMega={eligible,formsFor,current:()=>player&&player.cosmicForm?player.cosmicForm:null,history,demoOffer};
   }
   install();
 })();

@@ -16,7 +16,7 @@
   const save=Object.assign({skins:{},lanterns:0,mega:{},lastEarn:{},claimed:false},read());
   function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
   function currentDex(){return window.G&&G.DB&&G.DB.save ? Number(G.DB.save.partner) : 0;}
-  function currentSkin(){return save.skins[currentDex()]||'normal';}
+  function currentSkin(){const lab=window.CosmicTestLab;return lab&&lab.enabled&&lab.safe()&&lab.skin||save.skins[currentDex()]||'normal';}
   function money(){return Number(save.lanterns)||0;}
   function installed(){return !!(window.G&&G.Player&&G.Sprites&&G.Sprites.Animator);}
   function notify(msg){ const e=document.getElementById('cosmic-toast');if(!e)return;e.textContent=msg;e.classList.add('show');clearTimeout(notify.t);notify.t=setTimeout(()=>e.classList.remove('show'),2300); }
