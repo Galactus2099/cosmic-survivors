@@ -1,0 +1,93 @@
+name: Export Prismatic Mega Mewtwo X-Y Pixel Atlases
+on:
+  push:
+    branches: [feature/prismatic-mega-mewtwo-xy]
+    paths:
+      - 'tools/build_prismatic_mega_mewtwo.py'
+      - 'classic/js/mods/prismatic-mega-mewtwo.js'
+      - '.github/workflows/export-prismatic-mega-mewtwo.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/**'
+      - 'classic/assets/mega-variants/150/prismatic/**'
+      - 'tests/prismatic-mega-mewtwo.test.cjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout isolated Cosmic Survivors feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/prismatic-mega-mewtwo-xy
+          fetch-depth: 1
+      - name: Install sprite export tools
+        run: python3 -m pip install --user --quiet pillow numpy
+      - name: Export all transformed pixel animation sheets
+        run: python3 tools/build_prismatic_mega_mewtwo.py --verify
+      - name: Validate 14 exported sprite sheets with source geometry and pixels
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          import numpy as np
+          from PIL import Image
+          root=Path('classic/assets/mega-variants/150/prismatic')
+          m=json.loads((root/'manifest.json').read_text())
+          assert m['forms']==['x','y'] and m['pad']==16 and len(m['atlases'])==14
+          differences=[]
+          for anim in ('Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'):
+            x=np.asarray(Image.open(root/'x'/(anim+'.png')).convert('RGBA'))
+            y=np.asarray(Image.open(root/'y'/(anim+'.png')).convert('RGBA'))
+            assert x.shape==y.shape
+            # Armor/crown/palette sets must actually differ, not share recolored base.
+            different=((x[:,:,:3]!=y[:,:,:3]).any(axis=2)) & (x[:,:,3]>30) & (y[:,:,3]>30)
+            assert int(different.sum())>50, ('X/Y sprites too similar',anim)
+            differences.append(int(different.sum()))
+            for form,frame in [('x',x),('y',y)]:
+              data=m['atlases'][form+'/'+anim]
+              path=root/form/(anim+'.png')
+              orig=np.asarray(Image.open(Path('classic/assets/pokemon/150')/(anim+'.png')).convert('RGBA'))
+              fw,fh=data['frameWidth'],data['frameHeight']
+              ow,oh=orig.shape[1]//data['frames'],orig.shape[0]//data['directions']
+              assert (fw,fh)==(ow+32,oh+32)
+              assert tuple(frame.shape[:2])==(fh*data['directions'],fw*data['frames'])
+              assert data['directions']==8 and data['frames']>=2
+              assert hashlib.sha256(path.read_bytes()).hexdigest()==data['sha256']
+              assert frame[:,:,3].min()==0 and frame[:,:,3].max()==255
+              # All opaque original Mewtwo pixels still exist in the output.
+              for direction in range(data['directions']):
+                for fi in range(data['frames']):
+                  old=orig[direction*oh:(direction+1)*oh,fi*ow:(fi+1)*ow,3]
+                  new=frame[direction*fh+16:direction*fh+16+oh,
+                            fi*fw+16:fi*fw+16+ow,3]
+                  assert np.all(new[old==255]==255),(form,anim,direction,fi)
+              print('VALID',form,anim,fw,fh,data['bytes'])
+          print('Distinct X/Y pixels per animation:',differences)
+          PY
+      - name: Check JS loader and existing gameplay tests
+        run: |
+          node --check classic/js/mods/prismatic-mega-mewtwo.js
+          node --check classic/js/mods/skin-fx.js
+          node --check classic/js/mods/mega-evolution.js
+          node tests/prismatic-mega-mewtwo.test.cjs
+          node tests/galaxy-mega-charizard.test.cjs
+          node tests/sprite-atlas.test.cjs
+          node tests/skin-fx.test.cjs
+          node tests/species-art.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Commit actual PNG sprite files to feature branch only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add classic/assets/mega-variants/150/prismatic
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: add fourteen Prismatic Mega Mewtwo X and Y animation atlases'
+            git push origin HEAD:feature/prismatic-mega-mewtwo-xy
+          fi
