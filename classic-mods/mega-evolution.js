@@ -97,6 +97,23 @@
     dialog.id='cm-mega-choice';dialog.hidden=true;
     dialog.innerHTML='<section class="cm-mega-panel" role="dialog" aria-modal="true" aria-labelledby="cm-mega-title"><p class="cm-kicker">✦ RARE UNIQUE CARD FOUND ✦</p><h2 id="cm-mega-title">Mega Evolution</h2><p id="cm-mega-explain">Choose a form to transform for the rest of this run.</p><div id="cm-mega-forms"></div><button type="button" id="cm-mega-later">Not now · skip Mega</button></section>';
     document.body.appendChild(dialog);
+    // Block the original game hotkeys while its simulation is paused here.
+    if(typeof window.addEventListener==='function'){
+      window.addEventListener('keydown',e=>{
+        if(!dialog||dialog.hidden)return;
+        const key=(e.code||e.key||'').toLowerCase();
+        if(['escape','keyp','digit1','digit2','numpad1','numpad2'].includes(key)){
+          e.preventDefault();
+          if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+          if(key==='escape')finish(null);
+          else if(key==='digit1'||key==='numpad1'||key==='digit2'||key==='numpad2'){
+            const index=(key.endsWith('2')?1:0);
+            const el=dialog.querySelector('#cm-mega-forms').children[index];
+            if(el&&el.click)el.click();
+          }
+        }
+      },true);
+    }
     dialog.querySelector('#cm-mega-later').onclick=()=>finish(null);
     compact=document.createElement('div');compact.id='cm-mega-status';compact.hidden=true;
     document.body.appendChild(compact);
