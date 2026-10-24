@@ -117,6 +117,21 @@ The repeatable exporter is `tools/build_more_variant_atlases.py`, using per-spec
 
 Noncommercial derivative art: keep the original `classic/CREDITS.md` and SpriteCollab CC BY-NC 4.0 obligations. Other species, and the Shadow/Gold/Crimson Nebula families, still use previous procedural effects pending additional frames.
 
+## Galaxy Mega Charizard — approved design implemented
+
+**After transforming Charizard into Mega X or Mega Y with the Galaxy skin equipped**, the game uses separate transparent Mega-specific animation sprite sheets, not the normal Galaxy Charizard atlases.
+
+- **Full-body cosmic colors.** The generator repaints every original Charizard body pixel (including the orange head, arms, wings, belly, legs and tail) using deep navy/blue/violet nebula tones. Automated pixel checks ensure the original orange does not show.
+- **Charizard-recognizable face.** All frames retain the original SpriteCollab Charizard head silhouette and facial anatomy; galaxy horns and markings are carefully attached around it.
+- **Clearly different Mega form.** Unique star-patterned extended wing membranes, crystal-like crests, a glowing spiral chest core and a **blue/cyan/pink flame tail** are baked into Mega-specific artwork. Mega X and Mega Y have distinct color accents.
+- **Effects chosen in the concept review.** Two little orbiting planets, one horizontal-and-one angled *partial* halo, and exactly three soft crosses resembling stars. No ambiguous large floating diamonds.
+- **Seven original animations**, with eight direction rows each: Idle, Walk, Attack, Shoot, Charge, Hurt and Faint. Original gameplay timing and all non-Galaxy forms remain unchanged.
+- If an image fails to load, the old animated Galaxy appearance is used so combat remains playable.
+
+**How to test:** Open [Guest Test Lab](https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1), choose **Guest**, click **TEST LAB**, borrow **Charizard** and **Start Solo Test**. During the run, use **TEST LAB → Galaxy**, close it, then reopen **TEST LAB → Show Mega Choice Now**. Choose **Mega Charizard X or Y**. Moving, turning around and attacking should show the full galaxy colors, tailored wings and blue/pink tail. The prior atlas-comparison toggle still works to compare the older shader style. No unlocks or permanent save changes occur during Guest testing.
+
+**Scope and honesty:** These are **new generated, derivative pixel-art animation frames fitted to the real Charizard silhouette**, not officially licensed or fully hand-painted Pokémon artwork. They aim at the approved artwork's design language at the game's existing low pixel resolution, rather than matching its high-resolution illustration pixel-for-pixel. Original CC BY-NC SpriteCollab credits in `CREDITS.md` and upstream MIT code notices in `LICENSE` are retained. Megas in other skin families are still separate future work.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
