@@ -191,6 +191,13 @@
       ctx.save();ctx.filter=filters[id]||skin.filter||'none';base.call(anim,ctx,x,y,opts);ctx.restore();return;
     }
     if(opts&&opts.flash){base.call(anim,ctx,x,y,opts);return;} // respect original hurt/white flash
+    // Pixel-baked Mewtwo variants are real standalone transparent animation
+    // atlases. When ready, draw them directly without piling procedural
+    // material/crown layers over the hand-placed crystals and stars.
+    if(window.CosmicSpriteAtlas&&window.CosmicSpriteAtlas.draw(ctx,anim,x,y,opts,skin)){
+      glow(ctx,id,x,y-7*k,Math.max(w,h)*.28,performance.now()/1000);
+      return;
+    }
     if(temp.width!==cw)temp.width=cw;
     if(temp.height!==ch)temp.height=ch;
     tex.setTransform(1,0,0,1,0,0);
