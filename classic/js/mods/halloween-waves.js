@@ -251,7 +251,7 @@
     };
     const origMenu=G.MenuUI.open;
     G.MenuUI.open=function(...args){const o=origMenu.apply(this,args);applyTheme();return o;};
-    window.CosmicHalloween={state:()=>({waves,round:round&&round.number,phase:round&&round.phase,corn:eventSave()&&eventSave().corn}),openShop,buy};
+    window.CosmicHalloween={state:()=>({waves,round:round&&round.number,phase:round&&round.phase,corn:eventSave()&&eventSave().corn}),startWaves:()=>{pendingWaves=true;G.Game.startRun();},openShop,buy};
   }
 
   wrapGame();
