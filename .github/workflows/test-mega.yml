@@ -1,0 +1,44 @@
+name: Mega transformation regression
+on:
+  push:
+    branches: [feature/mega-evolution-v2]
+    paths:
+      - 'classic/js/mods/mega-evolution.js'
+      - 'classic/js/mods/cosmic.js'
+      - 'classic/index.html'
+      - 'tests/mega-evolution.test.cjs'
+      - '.github/workflows/test-mega.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/mega-evolution.js'
+      - 'classic/js/mods/cosmic.js'
+      - 'classic/index.html'
+      - 'tests/mega-evolution.test.cjs'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check classic/js/mods/mega-evolution.js
+          node --check classic/js/mods/halloween-waves.js
+          node --check classic/js/mods/cosmic.js
+          node --check classic/js/main.js
+      - name: Test mid-run Mega transformations
+        run: node tests/mega-evolution.test.cjs
+      - name: Retest Halloween Waves and shop
+        run: node tests/halloween-waves.test.cjs
+      - name: Validate integration and licensing
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          h=Path('classic/index.html').read_text()
+          assert 'js/mods/mega-evolution.js' in h
+          assert 'css/mega-evolution.css' in h
+          assert h.index('js/mods/cosmic.js')<h.index('js/mods/halloween-waves.js')<h.index('js/mods/mega-evolution.js')<h.index('js/main.js')
+          assert 'Mega Mode (prototype)' not in Path('classic/js/mods/cosmic.js').read_text()
+          assert Path('classic/LICENSE').exists()
+          assert Path('classic/CREDITS.md').exists()
+          print('Mega script order and required artist credits confirmed.')
+          PY
