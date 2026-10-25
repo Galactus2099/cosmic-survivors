@@ -20,7 +20,7 @@ button:hover,select:hover{border-color:#b5eafa}button:focus-visible,select:focus
 .cardhead{padding:17px 18px 8px}small{color:#bbb5d1}.status{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:8px;font-size:12px;background:#29263b;border:1px solid #706380;color:#f9caab;font-weight:650}
 .status.ok{background:#223b35;border-color:#75c8a6;color:#a6f5c6}
 .status.fail{background:#4a2235;border-color:#ff8499;color:#ffc6d2}
-.scene{aspect-ratio:1.18;position:relative;overflow:hidden;background:#1b2b34}.scene.grass{background:#365f4e}.scene.night{background:#192943}
+.scene{aspect-ratio:1.09;position:relative;overflow:hidden;background:#1b2b34}.scene.grass{background:#365f4e}.scene.night{background:#192943}
 canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
 .foot{padding:14px 18px 18px;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
 .foot button{max-width:175px;min-height:38px}.desc{font-size:12px;line-height:1.6;color:#c7bfdf}
@@ -42,8 +42,8 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rend
   <div class="control"><label for="background">Preview background</label><select id="background"><option value="grass">Green arena</option><option value="night">Haunted Hollow</option></select></div>
 </div>
 <div class="cards">
-  <section class="card"><div class="cardhead"><h2 id="name-x">Mega Mewtwo X</h2><div id="status-x" class="status">Loading animation frames…</div></div><div id="scene-x" class="scene grass"><canvas id="canvas-x" width="480" height="380" aria-label="Mega X animated sprite preview"></canvas></div><div class="foot"><span id="desc-x" class="desc">Armored psychic fighter · sapphire crystals</span><button id="before-x">Show original</button></div></section>
-  <section class="card"><div class="cardhead"><h2 id="name-y">Mega Mewtwo Y</h2><div id="status-y" class="status">Loading animation frames…</div></div><div id="scene-y" class="scene grass"><canvas id="canvas-y" width="480" height="380" aria-label="Mega Y animated sprite preview"></canvas></div><div class="foot"><span id="desc-y" class="desc">Psychic fins · opalescent crystals</span><button id="before-y">Show original</button></div></section>
+  <section class="card"><div class="cardhead"><h2 id="name-x">Mega Mewtwo X</h2><div id="status-x" class="status">Loading animation frames…</div></div><div id="scene-x" class="scene grass"><canvas id="canvas-x" width="480" height="440" aria-label="Mega X animated sprite preview"></canvas></div><div class="foot"><span id="desc-x" class="desc">Armored psychic fighter · sapphire crystals</span><button id="before-x">Show original</button></div></section>
+  <section class="card"><div class="cardhead"><h2 id="name-y">Mega Mewtwo Y</h2><div id="status-y" class="status">Loading animation frames…</div></div><div id="scene-y" class="scene grass"><canvas id="canvas-y" width="480" height="440" aria-label="Mega Y animated sprite preview"></canvas></div><div class="foot"><span id="desc-y" class="desc">Psychic fins · opalescent crystals</span><button id="before-y">Show original</button></div></section>
 </div>
 <div class="panel hints">
   <strong>What this checks:</strong> These previews load the exact Mega X and Y PNG atlases used in the game, and show their actual frames at enlarged pixel scale. The sprite stays positioned by the original animation's feet anchor. Click <b>Show original</b> to compare with the unmodified original Pokémon silhouette.
@@ -128,11 +128,11 @@ for(const c of cards)$('before-'+c.name).addEventListener('click',()=>{c.orig=!c
 function rect(ctx,x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(x,y,w,h);}
 function ground(ctx,s,t){
  const night=s.background==='night';
- rect(ctx,0,0,480,380,night?'#233e45':'#416f54');
+ rect(ctx,0,0,480,440,night?'#233e45':'#416f54');
  let seed=472910;
  function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967295;}
  for(let i=0;i<850;i++){
-   const x=Math.floor(rnd()*480/4)*4,y=Math.floor(rnd()*380/4)*4;
+   const x=Math.floor(rnd()*480/4)*4,y=Math.floor(rnd()*440/4)*4;
    const col=night?['#335359','#3a495b','#2a4a52','#725c72']:
      ['#4b7b5e','#35694f','#568263','#517f54'];
    rect(ctx,x,y,4+rnd()*3,3+rnd()*3,col[Math.floor(rnd()*col.length)]);
@@ -170,7 +170,7 @@ function drawOne(c,t,delta){
  const s=state(),d=META[s.species],m=d.animations[s.anim];
  const ctx=c.ctx;ctx.imageSmoothingEnabled=false;
  ground(ctx,s,t);
- const px=240,py=260;
+ const px=240,py=245;
  ctx.save();
  ctx.fillStyle='#0d101f';ctx.globalAlpha=.36;ctx.beginPath();
  ctx.ellipse(px,py+4,56,10,0,0,Math.PI*2);ctx.fill();ctx.restore();
@@ -193,7 +193,11 @@ function drawOne(c,t,delta){
    return;
  }
  effects(ctx,s,c,t,px,py);
- const scale=4; // native atlas pixels enlarged crisply, never blurred
+ // Preserve the entire silhouette, tail and crown even in Attack/Charge
+ // where SpriteCollab frames are larger than the usual Idle frame.
+ const above=m[4]+pad,below=fh-above;
+ const scale=Math.max(1,Math.min(4,Math.floor(464/fw),
+   Math.floor((245-12)/above),Math.floor((440-245-12)/below)));
  const w=fw*scale,h=fh*scale;
  const dx=Math.round(px-(m[3]+pad)*scale),dy=Math.round(py-(m[4]+pad)*scale);
  ctx.drawImage(img,c.frame*fw,s.dir*fh,fw,fh,dx,dy,w,h);
