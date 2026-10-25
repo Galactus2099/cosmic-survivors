@@ -40,7 +40,7 @@ function closeLab(){
 function startPreview(dex,mode){
  if(!safe())return false;
  const s=G.DB.save,d=Number(dex);
- if(!s||!G.DEX_BY[d]||!G.SPRITE_META[d]){toast('That Pokémon has no playable animation sprites in this build.');return false;}
+ if(!s||!G.DEX_BY[d]||(G.SPRITE_META&&!G.SPRITE_META[d])){toast('That Pokémon has no playable animation sprites in this build.');return false;}
  if(G.Game.state!=='ui'){toast('Finish your current run before borrowing a partner.');return false;}
  if(!skinChosen)skin=d===150?'prismatic':d===6?'galaxy':'prismatic';
  // Each new Guest run defaults to finished animation artwork, not the
@@ -128,9 +128,9 @@ function makeUI(){
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){e.stopImmediatePropagation();e.preventDefault();closeLab()}},true);
  status=panel.querySelector('#tl-status');
  const select=panel.querySelector('#tl-pokemon');
- const featured=loaners.filter(x=>G.DEX_BY[x.id]&&G.SPRITE_META[x.id]);
+ const featured=loaners.filter(x=>G.DEX_BY[x.id]&&(!G.SPRITE_META||G.SPRITE_META[x.id]));
  const favorites=new Set(featured.map(x=>x.id));
- const others=Object.keys(G.SPRITE_META||{}).map(Number).filter(d=>!favorites.has(d)&&G.DEX_BY[d]&&G.SPRITE_META[d].a).sort((a,b)=>a-b)
+ const others=Object.keys(G.SPRITE_META||{}).map(Number).filter(d=>!favorites.has(d)&&G.DEX_BY[d]&&G.SPRITE_META[d]&&G.SPRITE_META[d].a).sort((a,b)=>a-b)
    .map(id=>({id,label:'#'+id+' '+G.DEX_BY[id].name}));
  const available=[...featured,...others];
  const fillPokemon=(q)=>{
