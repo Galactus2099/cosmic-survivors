@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cosmic Skin Gallery — all available Pokémon</title>
+<style>
+*{box-sizing:border-box}body{background:radial-gradient(ellipse at 55% 0,#2d2656,#0d1525 70%);min-height:100vh;color:#f3f0ff;margin:0;font-family:system-ui,-apple-system,sans-serif}
+main{max-width:1190px;margin:auto;padding:24px 20px 65px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}header a{color:#bcdbff;text-decoration:none;border:1px solid #726e96;border-radius:9px;padding:10px 15px}
+h1{font-family:Georgia,serif;color:#fff0b7;font-size:clamp(27px,4vw,47px);margin:16px 0 7px}
+p{color:#c9c3dc;max-width:900px}b{color:#f3e2bc}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;background:#1b1c35df;border:1px solid #746b9f;border-radius:16px;padding:18px;margin:23px 0}
+label{display:block;font-weight:700;font-size:12px;margin-bottom:8px;color:#bfbde1}
+select,input{width:100%;min-height:45px;padding:9px 11px;border-radius:8px;border:1px solid #7c79ad;background:#242443;color:white;font:600 14px system-ui}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+article{overflow:hidden;border:1px solid #767296;border-radius:18px;background:#1d1b34}
+article h2{margin:14px 17px 7px;font-size:19px;color:#ffe3b2}
+.scene{background:#335b49;position:relative;aspect-ratio:1.24}canvas{image-rendering:pixelated;display:block;width:100%;height:100%}
+.foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:13px 16px;color:#c4e0d8;font-size:12px}
+.foot em{font-style:normal;background:#24413f;border:1px solid #53786c;padding:4px 8px;border-radius:8px}
+.foot .warn{background:#4b2938;border-color:#b98083}
+.info{margin-top:18px;padding:15px 18px;border:1px solid #67668d;border-radius:14px;background:#191b30;color:#c9cbe1}
+.info strong{color:#ffe4b7}.row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1;min-width:160px}
+@media(max-width:740px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}main{padding:14px 12px 48px}}
+</style>
+</head>
+<body>
+<main>
+<header><div style="color:#86d8ed;letter-spacing:.14em;font-size:11px;font-weight:900">COSMIC SURVIVORS · ALL-POKÉMON SKIN QA</div><div><a href="mega-showcase.html">Mega Art Studio</a> <a href="./?testlab=1">Guest Test Lab</a></div></header>
+<h1>Universal Skin Gallery</h1>
+<p>This displays <b>actual Pokémon animation PNGs</b>, with the new generated pixel materials applied directly to the sprite. Browse all available species without unlocking anything or changing your saved progress.</p>
+<section class="controls">
+  <div><label for="pokemon">Pokémon</label><select id="pokemon"></select></div>
+  <div><label for="family">Appearance</label><select id="family"><option value="shadow">Shadow</option><option value="gold">Gold</option><option value="prismatic" selected>Prismatic</option><option value="galaxy">Galaxy</option><option value="crimson">Crimson Nebula</option></select></div>
+  <div><label for="action">Animation</label><select id="action"></select></div>
+  <div><label for="facing">Facing</label><select id="facing"><option value="0">Front</option><option value="1">Front-right</option><option value="2">Right</option><option value="3">Back-right</option><option value="4">Back</option><option value="5">Back-left</option><option value="6">Left</option><option value="7">Front-left</option></select></div>
+</section>
+<div class="grid">
+  <article><h2 id="label-original">Original Pokémon</h2><div class="scene"><canvas id="original" width="480" height="420" aria-label="Original animated Pokemon sprite"></canvas></div><div class="foot"><span>Original SpriteCollab artwork</span><em id="original-state">Loading…</em></div></article>
+  <article><h2 id="label-skin">Prismatic Pokémon</h2><div class="scene"><canvas id="skin" width="480" height="420" aria-label="Generated cosmetic pixel animation"></canvas></div><div class="foot"><span id="method">Generated from original frame pixels</span><em id="skin-state">Loading…</em></div></article>
+</div>
+<div class="info"><strong id="count">Loading sprite metadata…</strong> <span id="details"></span>
+<p style="font-size:13px">This gallery verifies <b>universal coverage</b>. These variants preserve recognizable species anatomy and pixel frames, but they are <b>generated texture treatments</b>, not 900+ individually painted official-quality skins. Bespoke skin artwork is a separate tier: the four showcase species have additional Prismatic/Galaxy PNGs, and Mega Mewtwo / Mega Charizard have separate transformed sprite packs. <a href="mega-showcase.html" style="color:#8ed9fa">View those Mega forms here.</a></p>
+<p style="font-size:12px">Original sprite art: SpriteCollab, CC BY-NC 4.0, noncommercial derivative fan work. <a href="CREDITS.md" style="color:#c3a5ff">Attributions</a>.</p>
+</div>
+</main>
+<script>window.G=window.G||{};</script>
+<script src="js/data/sprites-meta.js"></script>
+<script src="js/data/pokedex.js"></script>
+<script src="js/mods/universal-pixel-atlas.js"></script>
+<script>
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const ids=Object.keys(G.SPRITE_META||{}).map(Number).filter(d=>G.SPRITE_META[d]&&G.SPRITE_META[d].a).sort((a,b)=>a-b);
+const names=new Map((G.DEX||[]).map(mon=>[Number(mon.dex),mon.name]));
+const familyNames={shadow:'Shadow',gold:'Gold',prismatic:'Prismatic',galaxy:'Galaxy',crimson:'Crimson Nebula'};
+const list=$('pokemon');for(const dex of ids){const option=document.createElement('option');option.value=dex;option.textContent='#'+dex+' '+(names.get(dex)||'Pokémon');list.appendChild(option);}
+list.value=ids.includes(150)?'150':String(ids[0]);
+const cache=new Map();let last=0,stepFrame=0,elapsed=0;
+const source=(dex,action)=>{
+ const key=dex+'/'+action;if(cache.has(key))return cache.get(key);
+ const img=new Image(),e={img,ready:false,failed:false};cache.set(key,e);
+ img.onload=()=>e.ready=true;img.onerror=()=>e.failed=true;
+ img.src='assets/pokemon/'+dex+'/'+action+'.png';return e;
+};
+G.Sprites={
+ PX:2,
+ animMeta(dex,action){const m=G.SPRITE_META[dex];return m&&(m.a[action]||m.a.Idle)||null;},
+ sheet(dex,action){return source(dex,action);}
+};
+function actions(){
+ const dex=Number(list.value),m=G.SPRITE_META[dex],el=$('action'),old=el.value;
+ el.replaceChildren();
+ const preferred=['Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'];
+ for(const a of preferred.filter(a=>m.a[a])){
+   const o=document.createElement('option');o.value=a;o.textContent=a;el.appendChild(o);
+ }
+ el.value=preferred.includes(old)&&m.a[old]?old:'Idle';
+ stepFrame=0;elapsed=0;
+}
+function paint(ctx,t){
+ const grass=['#3b684d','#436c53','#315d45','#507457'];ctx.fillStyle=grass[0];ctx.fillRect(0,0,480,420);
+ let n=45312;function rnd(){n=(Math.imul(n,1664525)+1013904223)>>>0;return n/4294967296;}
+ for(let i=0;i<650;i++){ctx.fillStyle=grass[i%4];ctx.fillRect((rnd()*120|0)*4,(rnd()*105|0)*4,4,4);}
+}
+function show(now){
+ const dt=Math.min(60,now-last||17);last=now;
+ const dex=Number(list.value),kind=$('family').value,action=$('action').value,dir=Number($('facing').value),m=G.Sprites.animMeta(dex,action);
+ const title=names.get(dex)||'Pokémon #'+dex;
+ $('label-original').textContent=title+' · Original';
+ $('label-skin').textContent=title+' · '+familyNames[kind];
+ if(!m){requestAnimationFrame(show);return;}
+ const asset=source(dex,action);
+ const frames=m.n,rate=m.d||[8];
+ elapsed+=dt;if(elapsed>Math.max(1,rate[stepFrame%rate.length]||5)*1000/60){elapsed=0;stepFrame=(stepFrame+1)%frames;}
+ const scale=Math.max(1,Math.min(5,Math.floor(450/m.w),Math.floor(296/Math.max(1,m.ay)),Math.floor(95/Math.max(1,m.h-m.ay))));
+ const x=240,y=310;
+ for(const el of [$('original'),$('skin')]){const ctx=el.getContext('2d');ctx.imageSmoothingEnabled=false;paint(ctx,now);}
+ const oc=$('original').getContext('2d'),sc=$('skin').getContext('2d');
+ if(asset.ready&&asset.img.naturalWidth===m.w*m.n&&asset.img.naturalHeight===m.h*m.r){
+   const dx=Math.round(x-m.ax*scale),dy=Math.round(y-m.ay*scale);
+   oc.drawImage(asset.img,stepFrame*m.w,dir*m.h,m.w,m.h,dx,dy,m.w*scale,m.h*scale);
+   $('original-state').textContent='✓ Original loaded';$('original-state').className='';
+   const anim={dex,cur:action,frame:stepFrame,dir,scale:scale/2,cosmicPlayer:true,shiny:false};
+   const ok=window.CosmicUniversalAtlas.draw(sc,anim,x,y,{alpha:1},{id:kind});
+   $('skin-state').textContent=ok?'✓ Generated skin ready':'Generating skin…';
+   $('skin-state').className=ok?'':'warn';
+ }else{
+   $('original-state').textContent=asset.failed?'Original PNG missing':'Loading source PNG…';
+   $('skin-state').textContent=asset.failed?'No source image available':'Waiting for source…';
+   $('original-state').className=asset.failed?'warn':'';
+   $('skin-state').className=asset.failed?'warn':'';
+ }
+ const cov=window.CosmicUniversalAtlas.coverage();
+ $('count').textContent=cov.species+' species with SpriteCollab animation metadata · '+cov.materials+' universal looks';
+ $('details').textContent='· '+cov.possibleLooks+' species/skin combinations · '+cov.cache+' spritesheets cached · '+cov.failures+' image processing failures';
+ requestAnimationFrame(show);
+}
+list.addEventListener('change',actions);
+for(const id of ['family','action','facing'])$(id).addEventListener('change',()=>{stepFrame=0;elapsed=0;});
+actions();requestAnimationFrame(show);
+})();
+</script>
+</body></html>
