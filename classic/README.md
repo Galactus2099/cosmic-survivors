@@ -178,6 +178,31 @@ While Mega sprite files download, the temporary fallback no longer adds detached
 
 **Attribution:** pixel artwork derived from noncommercial SpriteCollab Pokémon animation sprites. Original credits (`classic/CREDITS.md`), CC BY-NC 4.0 art terms and MIT code license notices remain applicable.
 
+## Universal Cosmic Skins 4.0 — real runs for all available Pokémon
+
+Cosmic Classic now provides a universal pixel-material renderer for **966 Pokémon with SpriteCollab animation metadata**. It recognizes all five cosmetic families: **Shadow, Gold, Prismatic, Galaxy and Crimson Nebula** (**4,830 potential Pokémon/skin combinations**, not 4,830 individually illustrated sprite sets).
+
+- The new renderer processes each actual local SpriteCollab animation atlas, retaining species face and silhouette, animation timing, frame locations, transparency, outlines and eight directions. Every visible body pixel receives the material, rather than leaving original bright orange patches under a separate floating color effect.
+- The skin is cached per Pokémon, animation and variant. Larger sheets are processed incrementally during idle tasks rather than locking the game for a long render frame.
+- The original four species' Prismatic/Galaxy animation atlases and **Prismatic Mega Mewtwo X/Y / Galaxy Mega Charizard X/Y** are preferred over the universal generator. Existing Mega, Halloween, Waves and Candy Corn systems are unchanged.
+- Skin choices remain saved locally with the same existing currencies, ownership and unlock conditions. Guest Test Lab previews are temporary and do not unlock or spend anything.
+
+### Play it like a real run right now
+
+**Guest Test Lab:** <https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1>
+
+1. Open the page, enter **Guest mode**, then click **🔬 TEST LAB**.
+2. In **Find Pokémon**, search a name or Pokédex number; choose **any available Pokémon** from the list.
+3. Choose **Creature appearance** (Shadow, Gold, Prismatic, Galaxy or Crimson Nebula) *before* you start.
+4. Click **Start Solo Test** for a real dungeon survival run, or **Start Waves Test** for the Halloween Waves mode.
+5. During gameplay, reopen **TEST LAB** to change appearance while your Pokémon moves, attacks or levels up. For a supported Mega Pokémon, choose **Show Mega Choice Now**. No permanent save is changed.
+
+**Browse the whole game visually:** <https://galactus2099.github.io/cosmic-survivors/classic/skin-gallery.html>
+
+The All-Pokémon Skin Gallery provides side-by-side **original vs generated skin** using the same real SpriteCollab PNG sheets. Pick any listed Pokémon, skin family, animation and facing direction; no game login or grind needed. The Mega Art Studio remains available at <https://galactus2099.github.io/cosmic-survivors/classic/mega-showcase.html>.
+
+**Quality boundary:** The game-wide materials and existing combat systems are automated-test-verified, but this is *universal generated pixel-art coverage*, not custom hand-painted art for every one of the 966 Pokémon. Larger or missing sprites can temporarily show the safe legacy effect during loading. Browser playtests across all 966 Pokémon and 4,830 combinations have not been individually performed. The four showcase Pokémon and the two featured Mega families retain their stronger pre-rendered variants. Keep the SpriteCollab CC BY-NC 4.0 attribution in `CREDITS.md` and upstream code's MIT notices.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
