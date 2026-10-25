@@ -72,7 +72,7 @@ assert.equal(art.draw(out,anim,80,100,{flash:true,softFlash:true},'galaxy'),true
 assert.equal(out.globalAlpha,1);
 const live=fs.readFileSync('classic/js/mods/skin-fx.js','utf8');
 const curated=live.indexOf('window.CosmicSpriteAtlas.draw(ctx,anim,x,y,opts,skin)');
-const universal=live.indexOf('window.CosmicUniversalAtlas.draw(ctx,anim,x,y,opts,skin)');
+const universal=live.lastIndexOf('window.CosmicUniversalAtlas.draw(ctx,anim,x,y,opts,skin)');
 assert.ok(curated>=0&&universal>curated,'custom curated sheet takes priority');
 assert.ok(universal<live.indexOf('base.call(anim,tex,m.ax*k+pad'),'universal pixel art before hue-overlay fallback');
 const page=fs.readFileSync('classic/index.html','utf8');
