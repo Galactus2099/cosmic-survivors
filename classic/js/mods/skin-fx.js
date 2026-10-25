@@ -207,7 +207,7 @@
       window.CosmicMegaPrismatic.underlay(ctx,anim,x,y);
       if(window.CosmicMegaPrismatic.drawSprite(ctx,anim,x,y,opts,skin))return;
     }
-    if(opts&&opts.flash&&!mega&&!prismaticMega){base.call(anim,ctx,x,y,opts);return;} // original hurt flash
+
     // Pixel-baked Mewtwo variants are real standalone transparent animation
     // atlases. When ready, draw them directly without piling procedural
     // material/crown layers over the hand-placed crystals and stars.
@@ -215,6 +215,12 @@
       glow(ctx,id,x,y-7*k,Math.max(w,h)*.28,performance.now()/1000);
       return;
     }
+    // Prefer generated pixel-accurate textures for every remaining Pokémon.
+    // Unlike screen-space hue filters these are recolored once per SOURCE
+    // animation atlas and retain outlines, geometry and all facing directions.
+    // This also preserves skin during the game's white hurt-flash.
+    if(window.CosmicUniversalAtlas&&window.CosmicUniversalAtlas.draw(ctx,anim,x,y,opts,skin))return;
+    if(opts&&opts.flash&&!mega&&!prismaticMega){base.call(anim,ctx,x,y,opts);return;} // memory / missing source fallback
     if(temp.width!==cw)temp.width=cw;
     if(temp.height!==ch)temp.height=ch;
     tex.setTransform(1,0,0,1,0,0);
