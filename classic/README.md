@@ -154,6 +154,30 @@ The **Prismatic Mewtwo** skin now gets a genuinely separate **transformed appear
 
 The 14 PNGs and SHA-256 manifest are under `classic/assets/mega-variants/150/prismatic`. The reproducible generator is `tools/build_prismatic_mega_mewtwo.py`, and export/regression workflow `.github/workflows/export-prismatic-mega-mewtwo.yml`. They are **derivative SpriteCollab fan pixel art**, not officially licensed/independently hand-painted designs. Preserve `classic/CREDITS.md` and its CC BY-NC 4.0 credit requirements.
 
+## Mega Art Studio — see the real complete X/Y animations immediately
+
+**Direct link:** https://galactus2099.github.io/cosmic-survivors/classic/mega-showcase.html
+
+The Mega Art Studio is a standalone, **no-login, no-grind visual preview** that draws the exact source PNG atlases shipped to the game (not concept illustrations). Select:
+
+- **Mewtwo · Prismatic:** view Mega X and Mega Y side by side; examine sapphire crystal armor versus opalescent psychic fins
+- **Charizard · Galaxy:** view Mega X and Y side by side; examine galaxy wing details, recognizable Charizard silhouette and blue/cyan-pink tail
+- **Animation:** Idle, Walk, Attack, Shoot, Charge, Hurt, Faint
+- **Facing:** any of the 8 directions
+- **Background:** green arena or Haunted Hollow
+- **Show original:** compare both full-body Mega atlases with the ordinary original sprite
+- **Asset status:** each panel reports if its real PNG has loaded or failed. An asset loading failure is not hidden with a recolor.
+
+The preview renders actual transparent animation frames at crisp pixel scale, intelligently reducing zoom for large Attack frames so tails and crowns remain in frame. It does not need a game account or unlock currency and does not touch the actual saved account.
+
+### Fixed Mega Test Lab defaults
+
+Open <https://galactus2099.github.io/cosmic-survivors/classic/?testlab=1> → Guest → TEST LAB. Borrowing **Mewtwo** now defaults to Prismatic; borrowing **Charizard** now defaults to Galaxy. Guest run starts automatically reset **Pixel Atlases ON** and preload both Mega X/Y sprite packs, avoiding accidental carryover from the old shader comparison toggle. The lab includes a **Use latest Mega artwork** reset button, a live PNG readiness/failure status line and a direct link to the Art Studio.
+
+While Mega sprite files download, the temporary fallback no longer adds detached extra base-skin crystal ornaments on top of the transformed Pokémon. Actual game animation and all normal unlocks remain unchanged.
+
+**Attribution:** pixel artwork derived from noncommercial SpriteCollab Pokémon animation sprites. Original credits (`classic/CREDITS.md`), CC BY-NC 4.0 art terms and MIT code license notices remain applicable.
+
 ## Current limitations (important)
 
 This adds functional *original adaptations* of Waves and rare in-run Mega/Primal/Crowned transformation cards, not a full recreation of all Doofcraft additions. The new forms currently show animated **base Pokémon sprites with new crest/ring VFX**; accurate alternative Mega-form sprite sheets have not yet been sourced or animated. It does **not** yet include the Haunted Hollow map, Bloodmoon Ursaluna, or unique Shadow Mewtwo/Lugia species artwork. Normal solo-run combat, maps, moves, leveling, Pokémon selection, gacha, and upgrades are inherited from the historical engine.
