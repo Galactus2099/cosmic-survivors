@@ -8,7 +8,7 @@ const enabled=/(?:^|[?&])testlab=1(?:&|$)/.test(location.search||'');
 const loaners=[{id:6,label:'Charizard (Mega X/Y)'},{id:150,label:'Mewtwo (Mega X/Y)'},{id:94,label:'Gengar (Mega)'},{id:448,label:'Lucario (Mega)'},{id:382,label:'Kyogre (Primal)'},{id:383,label:'Groudon (Primal)'},{id:888,label:'Zacian (Crowned)'},{id:889,label:'Zamazenta (Crowned)'},{id:3,label:'Venusaur (Mega)'},{id:9,label:'Blastoise (Mega)'}];
 const variants=[{id:'normal',name:'Normal'},{id:'shadow',name:'Shadow'},{id:'gold',name:'Gold'},{id:'prismatic',name:'Prismatic'},{id:'galaxy',name:'Galaxy'},{id:'crimson',name:'Crimson Nebula'}];
 const items=[{id:'haunted-backdrop',name:'Haunted menu'},{id:'pumpkin-aura',name:'Pumpkin aura'},{id:'spectral-trail',name:'Spectral trail'},{id:'shadow-mewtwo',name:'Shadow Mewtwo aura'},{id:'shadow-lugia',name:'Shadow Lugia aura'}];
-const flags={};let skin='normal',panel=null,button=null,status=null,pausedByLab=false;
+const flags={};let skin='normal',skinChosen=false,panel=null,button=null,status=null,pausedByLab=false;
 function safe(){return !!(enabled&&window.G&&G.DB&&G.DB.guest&&!G.DB.online);}
 function toast(s){if(status)status.textContent=s;}
 const api={enabled, get skin(){return safe()?skin:null;}, get previewUnlocks(){return safe()?flags:{};}, safe, borrow,startPreview,forceMega,jumpWave,open:openLab};
@@ -40,9 +40,9 @@ function closeLab(){
 function startPreview(dex,mode){
  if(!safe())return false;
  const s=G.DB.save,d=Number(dex);
- if(!s||!G.DEX_BY[d]){toast('That Pokémon is not in this game build.');return false;}
+ if(!s||!G.DEX_BY[d]||!G.SPRITE_META[d]){toast('That Pokémon has no playable animation sprites in this build.');return false;}
  if(G.Game.state!=='ui'){toast('Finish your current run before borrowing a partner.');return false;}
- skin=d===150?'prismatic':d===6?'galaxy':'normal';
+ if(!skinChosen)skin=d===150?'prismatic':d===6?'galaxy':'prismatic';
  // Each new Guest run defaults to finished animation artwork, not the
  // intentionally degraded "procedural comparison" left over from last time.
  if(window.CosmicSpriteAtlas)window.CosmicSpriteAtlas.mode='auto';
@@ -84,7 +84,7 @@ function jumpWave(n=20){
 function chooseSkin(v){
  if(!safe())return;
  if(!variants.some(x=>x.id===v))return;
- skin=v;if(window.CosmicSpriteAtlas&&window.CosmicSpriteAtlas.warmup)window.CosmicSpriteAtlas.warmup(G.Game&&G.Game.player?G.Game.player.dex:150,v);refresh();toast(v+' skin preview active (not purchased)');
+ skin=v;skinChosen=true;if(window.CosmicSpriteAtlas&&window.CosmicSpriteAtlas.warmup)window.CosmicSpriteAtlas.warmup(G.Game&&G.Game.player?G.Game.player.dex:150,v);refresh();toast(v+' skin preview active (not purchased)');
 }
 function chooseItem(v){
  if(!safe())return;
@@ -121,14 +121,29 @@ function makeUI(){
  button=document.createElement('button');button.id='tl-open';button.type='button';button.textContent='🔬 TEST LAB';button.onclick=openLab;
  document.body.appendChild(button);
  panel=document.createElement('div');panel.id='tl-overlay';panel.hidden=true;
- panel.innerHTML='<section id="tl-panel" role="dialog" aria-modal="true" aria-label="Cosmic Test Lab"><button id="tl-close" type="button" aria-label="Close Test Lab">✕</button><span class="tl-eyebrow">COSMIC SURVIVORS CLASSIC · GUEST SANDBOX</span><h2>🔬 Feature Test Lab</h2><p>Preview the new features without unlocking Pokémon, spending currency, or changing your saved account. Test runs use Guest mode, so their progress is not saved.</p><div id="tl-guest-hint" hidden><b>Guest mode required</b><p>Use the game menu’s <b>Salir / Log out</b> button, then choose <b>Invitado / Guest</b> at login. Your existing local account remains saved. You can switch back after testing.</p></div><div id="tl-main"><div id="tl-borrow"><h3>Borrow a Pokémon for one run</h3><div class="tl-row"><label for="tl-pokemon">Pokémon</label><select id="tl-pokemon"></select></div><div class="tl-buttons"><button id="tl-solo">▶ Start Solo Test</button><button id="tl-waves">🌊 Start Waves Test</button></div></div><div id="tl-inrun" hidden><h3>Instant feature tests</h3><div class="tl-buttons"><button id="tl-mega">✨ Show Mega Choice Now</button><button id="tl-jump">🌊 Jump to Wave 20</button></div></div><h3>Preview skin without buying it</h3><div class="tl-row"><label for="tl-skin">Creature appearance</label><select id="tl-skin"></select></div><div class="tl-buttons"><button id="tl-compare-png" type="button">◆ Pixel Atlases ON (4 Pokémon)</button><button id="tl-art-reset" type="button">↻ Use latest Mega artwork</button></div><p id="tl-art-health" class="tl-status" role="status">Checking sprite files…</p><p><a href="mega-showcase.html" target="_blank" rel="noopener" style="color:#a0e8ff;font-weight:800">✨ Open Mega Art Studio — see both real X/Y sprites instantly</a></p><p class="tl-hint">Compare baked PNG artwork with the earlier procedural material effect. Available for Mewtwo, Charizard, Gengar and Lucario (Prismatic and Galaxy).</p><h3>Preview Halloween rewards</h3><div class="tl-chips" id="tl-items"></div></div><p class="tl-status" id="tl-status">This testing panel is only enabled with ?testlab=1.</p><p class="tl-hint">Temporary visuals last only for this tab. You will still need to unlock the real items in your regular account.</p></section>';
+ panel.innerHTML='<section id="tl-panel" role="dialog" aria-modal="true" aria-label="Cosmic Test Lab"><button id="tl-close" type="button" aria-label="Close Test Lab">✕</button><span class="tl-eyebrow">COSMIC SURVIVORS CLASSIC · GUEST SANDBOX</span><h2>🔬 Feature Test Lab</h2><p>Preview the new features without unlocking Pokémon, spending currency, or changing your saved account. Test runs use Guest mode, so their progress is not saved.</p><div id="tl-guest-hint" hidden><b>Guest mode required</b><p>Use the game menu’s <b>Salir / Log out</b> button, then choose <b>Invitado / Guest</b> at login. Your existing local account remains saved. You can switch back after testing.</p></div><div id="tl-main"><div id="tl-borrow"><h3>Borrow a Pokémon for one run</h3><div class="tl-row"><label for="tl-find">Find Pokémon</label><input id="tl-find" placeholder="Name or Pokédex number (e.g. Pikachu)" autocomplete="off" aria-label="Search all Pokémon"></div><div class="tl-row"><label for="tl-pokemon">Pokémon</label><select id="tl-pokemon"></select></div><div class="tl-buttons"><button id="tl-solo">▶ Start Solo Test</button><button id="tl-waves">🌊 Start Waves Test</button></div></div><div id="tl-inrun" hidden><h3>Instant feature tests</h3><div class="tl-buttons"><button id="tl-mega">✨ Show Mega Choice Now</button><button id="tl-jump">🌊 Jump to Wave 20</button></div></div><h3>Preview skin without buying it</h3><div class="tl-row"><label for="tl-skin">Creature appearance</label><select id="tl-skin"></select></div><div class="tl-buttons"><button id="tl-compare-png" type="button">◆ Pixel Atlases ON (4 Pokémon)</button><button id="tl-art-reset" type="button">↻ Use latest Mega artwork</button></div><p id="tl-art-health" class="tl-status" role="status">Checking sprite files…</p><p><a href="skin-gallery.html" target="_blank" rel="noopener" style="color:#a0e8ff;font-weight:800">🎨 Open All-Pokémon Skin Gallery — before/after for every species</a> · <a href="mega-showcase.html" target="_blank" rel="noopener" style="color:#a0e8ff;font-weight:800">Mega Art Studio</a></p><p class="tl-hint">Compare baked PNG artwork with the earlier procedural material effect. Available for Mewtwo, Charizard, Gengar and Lucario (Prismatic and Galaxy).</p><h3>Preview Halloween rewards</h3><div class="tl-chips" id="tl-items"></div></div><p class="tl-status" id="tl-status">This testing panel is only enabled with ?testlab=1.</p><p class="tl-hint">Temporary visuals last only for this tab. You will still need to unlock the real items in your regular account.</p></section>';
  document.body.appendChild(panel);
  panel.querySelector('#tl-close').onclick=closeLab;
  panel.addEventListener('click',e=>{if(e.target===panel)closeLab()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){e.stopImmediatePropagation();e.preventDefault();closeLab()}},true);
  status=panel.querySelector('#tl-status');
  const select=panel.querySelector('#tl-pokemon');
- for(const x of loaners){if(!G.DEX_BY[x.id])continue;const o=document.createElement('option');o.value=x.id;o.textContent=x.label;select.appendChild(o);}
+ const featured=loaners.filter(x=>G.DEX_BY[x.id]&&G.SPRITE_META[x.id]);
+ const favorites=new Set(featured.map(x=>x.id));
+ const others=Object.keys(G.SPRITE_META||{}).map(Number).filter(d=>!favorites.has(d)&&G.DEX_BY[d]&&G.SPRITE_META[d].a).sort((a,b)=>a-b)
+   .map(id=>({id,label:'#'+id+' '+G.DEX_BY[id].name}));
+ const available=[...featured,...others];
+ const fillPokemon=(q)=>{
+   const match=String(q||'').trim().toLowerCase();
+   const before=select.value;select.replaceChildren();
+   for(const item of available){
+     if(match&&!String(item.id).includes(match)&&!item.label.toLowerCase().includes(match))continue;
+     const o=document.createElement('option');o.value=item.id;o.textContent=item.label;select.appendChild(o);
+   }
+   if(select.querySelector('option[value="'+before+'"]'))select.value=before;
+ };
+ fillPokemon('');
+ panel.querySelector('#tl-find').oninput=e=>fillPokemon(e.target.value);
  const cssSelect=panel.querySelector('#tl-skin');
  for(const x of variants){const o=document.createElement('option');o.value=x.id;o.textContent=x.name;cssSelect.appendChild(o);}
  cssSelect.onchange=()=>chooseSkin(cssSelect.value);
