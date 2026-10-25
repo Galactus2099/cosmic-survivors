@@ -34,7 +34,8 @@ const srcImage={naturalWidth:16,naturalHeight:64};
 const sprite={img:srcImage,ready:true};
 G.Sprites={PX:2,animMeta(){return m},sheet(){return sprite},white(){return {white:true}}};
 const window={G};
-vm.runInNewContext(source,{window,G,document,Math,console,Uint8ClampedArray},{filename:'universal-pixel-atlas.js'});
+const asyncQueue=[];
+vm.runInNewContext(source,{window,G,document,Math,console,Uint8ClampedArray,setTimeout(fn){asyncQueue.push(fn);}}, {filename:'universal-pixel-atlas.js'});
 const art=window.CosmicUniversalAtlas;
 for(const dex of dexes){for(const family of families)assert.equal(art.supported(dex,family),true);}
 for(const dex of [0,-5,12000])assert.equal(art.supported(dex,'galaxy'),false);
@@ -79,4 +80,16 @@ assert.ok(page.indexOf('js/mods/universal-pixel-atlas.js')<page.indexOf('js/mods
 const gallery=fs.readFileSync('classic/skin-gallery.html','utf8');
 assert.ok(gallery.includes('js/data/sprites-meta.js')&&gallery.includes('js/mods/universal-pixel-atlas.js'));
 assert.ok(gallery.includes('Show original')===false); // Two-up always-on before/after
+// A large sprite sheet must NEVER be processed in one blocking render frame.
+Object.assign(m,{w:150,h:80,n:4,r:8,ax:74,ay:50});
+srcImage.naturalWidth=600;srcImage.naturalHeight=640;
+const big={...anim,dex:6,frame:2,dir:3};
+assert.equal(art.draw(out,big,80,100,{},'crimson'),false,'large skin safely falls back during preparation');
+assert.ok(asyncQueue.length>0,'large sheets prepare on nonblocking scheduled tasks');
+assert.ok(art.coverage().pending>=1,'skin marked as generating');
+let steps=0;
+while(asyncQueue.length&&steps++<200){asyncQueue.shift()()}
+assert.ok(steps>4&&steps<200,'work is split across multiple small tasks');
+assert.equal(art.draw(out,big,80,100,{},'crimson'),true,'large skin becomes ready without a page reload');
+assert.equal(art.coverage().pending,0,'completed job cleans up pending status');
 console.log('PASS: '+dexes.length+' species × five skins = '+(dexes.length*5)+' potential combinations, alpha silhouettes, stable frames, white flash and cache.');
