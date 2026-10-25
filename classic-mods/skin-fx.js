@@ -193,6 +193,9 @@
     const pad=fitted?Math.max(6,Math.ceil(k*9)):0;
     const cw=w+pad*2,ch=h+pad*2;
     if(!tex||!m||!k||!w||!h||cw>512||ch>512||typeof ctx.drawImage!=='function'||typeof tex.createLinearGradient!=='function'){
+      // Huge animation atlases may not fit the legacy 512px temporary
+      // canvas, but they CAN still use the universal source-sized texture.
+      if(window.CosmicUniversalAtlas&&window.CosmicUniversalAtlas.draw(ctx,anim,x,y,opts,skin))return;
       ctx.save();ctx.filter=filters[id]||skin.filter||'none';base.call(anim,ctx,x,y,opts);ctx.restore();return;
     }
     if(mega){
