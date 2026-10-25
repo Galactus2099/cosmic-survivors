@@ -1,0 +1,59 @@
+name: Universal Pokemon skin coverage
+on:
+  push:
+    branches: [feature/universal-skin-pixel-atlas-coverage]
+    paths:
+      - 'classic/js/mods/universal-pixel-atlas.js'
+      - 'classic/js/mods/skin-fx.js'
+      - 'classic/js/mods/test-lab.js'
+      - 'classic/js/mods/cosmic.js'
+      - 'classic/skin-gallery.html'
+      - 'classic/index.html'
+      - 'tests/universal-skins.test.cjs'
+      - '.github/workflows/test-universal-skins.yml'
+  pull_request:
+    paths:
+      - 'classic/js/mods/universal-pixel-atlas.js'
+      - 'classic/js/mods/skin-fx.js'
+      - 'classic/js/mods/test-lab.js'
+      - 'classic/js/mods/cosmic.js'
+      - 'classic/skin-gallery.html'
+      - 'classic/index.html'
+      - 'tests/universal-skins.test.cjs'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify JavaScript syntax
+        run: |
+          node --check classic/js/mods/universal-pixel-atlas.js
+          node --check classic/js/mods/skin-fx.js
+          node --check classic/js/mods/cosmic.js
+          node --check classic/js/mods/test-lab.js
+      - name: Verify all Pokemon source metadata and universal skin generation
+        run: node tests/universal-skins.test.cjs
+      - name: Run complete Cosmic Classic gameplay regressions
+        run: |
+          node tests/mega-showcase.test.cjs
+          node tests/prismatic-mega-mewtwo.test.cjs
+          node tests/galaxy-mega-charizard.test.cjs
+          node tests/sprite-atlas.test.cjs
+          node tests/skin-fx.test.cjs
+          node tests/species-art.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Verify original license and art provenance still shipped
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          assert Path('classic/CREDITS.md').exists()
+          assert Path('classic/LICENSE').exists()
+          assert Path('classic/js/data/sprites-meta.js').exists()
+          assert Path('classic/js/data/pokedex.js').exists()
+          assert Path('classic/assets/mega-variants/6/galaxy/manifest.json').exists()
+          assert Path('classic/assets/mega-variants/150/prismatic/manifest.json').exists()
+          print('Attributions and bespoke Mega artwork retained')
+          PY
