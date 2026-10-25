@@ -179,7 +179,7 @@ function drawOne(c,t,delta){
    ctx.fillText(c.error?'Sprite failed to load':'Loading animation…',240,178);return;
  }
  c.elapsed+=delta;
- if(c.elapsed>m[6][c.frame]*16.6667){
+ if(c.elapsed>m[5][c.frame]*16.6667){
     c.elapsed=0;c.frame=(c.frame+1)%m[2];
  }
  const pad=c.orig?0:d.pad,fw=m[0]+pad*2,fh=m[1]+pad*2;
