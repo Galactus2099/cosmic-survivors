@@ -5,6 +5,8 @@ on:
     paths:
       - 'classic/js/mods/universal-pixel-atlas.js'
       - 'classic/js/mods/skin-fx.js'
+      - 'classic/js/mods/test-lab.js'
+      - 'classic/js/mods/cosmic.js'
       - 'classic/skin-gallery.html'
       - 'classic/index.html'
       - 'tests/universal-skins.test.cjs'
@@ -13,6 +15,8 @@ on:
     paths:
       - 'classic/js/mods/universal-pixel-atlas.js'
       - 'classic/js/mods/skin-fx.js'
+      - 'classic/js/mods/test-lab.js'
+      - 'classic/js/mods/cosmic.js'
       - 'classic/skin-gallery.html'
       - 'classic/index.html'
       - 'tests/universal-skins.test.cjs'
@@ -27,6 +31,7 @@ jobs:
           node --check classic/js/mods/universal-pixel-atlas.js
           node --check classic/js/mods/skin-fx.js
           node --check classic/js/mods/cosmic.js
+          node --check classic/js/mods/test-lab.js
       - name: Verify all Pokemon source metadata and universal skin generation
         run: node tests/universal-skins.test.cjs
       - name: Run complete Cosmic Classic gameplay regressions
