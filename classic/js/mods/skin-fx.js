@@ -228,7 +228,10 @@
     material(tex,id,cw,ch,t);
     // Additional body-specific crest/armor/gem geometry follows each sprite
     // frame's feet anchor, keeping Walk/Attack animations intact.
-    if(window.CosmicSpeciesArt&&window.CosmicSpeciesArt.apply){
+    // Never stack the old floating crystal crown on a Mega fallback.
+    // It could detach from Mewtwo's head when the live PNG was still loading
+    // or when the user deliberately switched to the old comparison shader.
+    if(!mega&&!prismaticMega&&window.CosmicSpeciesArt&&window.CosmicSpeciesArt.apply){
       window.CosmicSpeciesArt.apply(tex,anim,id,m,k,t,pad);
     }
     const dx=Math.round(x-m.ax*k-pad),dy=Math.round(y-m.ay*k-pad);
