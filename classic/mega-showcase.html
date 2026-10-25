@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cosmic Mega Art Studio · Cosmic Survivors Classic</title>
+<style>
+:root{color-scheme:dark;--gold:#ffe1a2;--cyan:#82e4fb;--bg:#100f23}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 60% 0,#38215d,#0e1022 52%,#090b17);font:15px/1.55 system-ui,sans-serif;color:#efecff}
+.wrap{max-width:1180px;margin:auto;padding:24px 22px 65px}a{color:#addbff}header{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}header a{padding:9px 13px;border:1px solid #6e648c;border-radius:9px;text-decoration:none;color:#f1e8ff}header a:hover{background:#343051}
+.eyebrow{color:#7fd6ec;font-size:11px;letter-spacing:.22em;font-weight:800}
+h1{font:normal clamp(32px,5vw,55px) Georgia,serif;margin:12px 0 5px;color:var(--gold)}
+h2{font-size:22px;margin:4px 0 10px;color:#fee3b9}p{margin:7px 0 14px;color:#cbbedf}
+.panel{border:1px solid #65628a;background:#191728cc;border-radius:17px;box-shadow:0 15px 55px #0006}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px;margin:19px 0}
+.control label{display:block;font-weight:750;font-size:12px;color:#d0d0ea;margin-bottom:7px}
+select,button{width:100%;min-height:44px;border:1px solid #8c86b0;background:#2b2b48;color:#fff;border-radius:9px;font:600 14px system-ui;cursor:pointer;padding:8px 12px}
+button:hover,select:hover{border-color:#b5eafa}button:focus-visible,select:focus-visible{outline:2px solid #8de3ef;outline-offset:2px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{min-width:0;overflow:hidden;border:1px solid #665e89;border-radius:17px;background:#191529}
+.cardhead{padding:17px 18px 8px}small{color:#bbb5d1}.status{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:8px;font-size:12px;background:#29263b;border:1px solid #706380;color:#f9caab;font-weight:650}
+.status.ok{background:#223b35;border-color:#75c8a6;color:#a6f5c6}
+.status.fail{background:#4a2235;border-color:#ff8499;color:#ffc6d2}
+.scene{aspect-ratio:1.09;position:relative;overflow:hidden;background:#1b2b34}.scene.grass{background:#365f4e}.scene.night{background:#192943}
+canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.foot{padding:14px 18px 18px;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.foot button{max-width:175px;min-height:38px}.desc{font-size:12px;line-height:1.6;color:#c7bfdf}
+.hints{margin-top:18px;padding:15px 18px}.hints strong{color:#ffde9f}.hints a{font-weight:700}
+.notes{font-size:12px;color:#b9b6c7;margin-top:12px}
+@media(max-width:720px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.cards{grid-template-columns:1fr}.wrap{padding:16px 12px 45px}.cardhead{padding:12px 14px 7px}.scene{aspect-ratio:1.25}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="eyebrow">COSMIC SURVIVORS CLASSIC · WORKING PIXEL ART</div><div><a href="./?testlab=1">Play in Guest Test Lab</a> <a href="./">Classic menu</a></div></header>
+<h1>Cosmic Mega Art Studio</h1>
+<p><strong>Actual in-game sprite files</strong>—not concept illustrations. Compare the base Pokémon with its Prismatic or Galaxy Mega transformation, try every animation and direction, and check whether the art loaded correctly.</p>
+<div class="panel controls">
+  <div class="control"><label for="species">Pokémon & skin</label><select id="species"><option value="mewtwo">Mewtwo · Prismatic</option><option value="charizard">Charizard · Galaxy</option></select></div>
+  <div class="control"><label for="animation">Animation</label><select id="animation"><option>Idle</option><option>Walk</option><option>Attack</option><option>Shoot</option><option>Charge</option><option>Hurt</option><option>Faint</option></select></div>
+  <div class="control"><label for="direction">Facing direction</label><select id="direction"><option value="0">Front · 0</option><option value="1">Front quarter · 1</option><option value="2">Side · 2</option><option value="3">Back quarter · 3</option><option value="4">Back · 4</option><option value="5">Back quarter · 5</option><option value="6">Side · 6</option><option value="7">Front quarter · 7</option></select></div>
+  <div class="control"><label for="background">Preview background</label><select id="background"><option value="grass">Green arena</option><option value="night">Haunted Hollow</option></select></div>
+</div>
+<div class="cards">
+  <section class="card"><div class="cardhead"><h2 id="name-x">Mega Mewtwo X</h2><div id="status-x" class="status">Loading animation frames…</div></div><div id="scene-x" class="scene grass"><canvas id="canvas-x" width="480" height="440" aria-label="Mega X animated sprite preview"></canvas></div><div class="foot"><span id="desc-x" class="desc">Armored psychic fighter · sapphire crystals</span><button id="before-x">Show original</button></div></section>
+  <section class="card"><div class="cardhead"><h2 id="name-y">Mega Mewtwo Y</h2><div id="status-y" class="status">Loading animation frames…</div></div><div id="scene-y" class="scene grass"><canvas id="canvas-y" width="480" height="440" aria-label="Mega Y animated sprite preview"></canvas></div><div class="foot"><span id="desc-y" class="desc">Psychic fins · opalescent crystals</span><button id="before-y">Show original</button></div></section>
+</div>
+<div class="panel hints">
+  <strong>What this checks:</strong> These previews load the exact Mega X and Y PNG atlases used in the game, and show their actual frames at enlarged pixel scale. The sprite stays positioned by the original animation's feet anchor. Click <b>Show original</b> to compare with the unmodified original Pokémon silhouette.
+  <p class="notes">For actual movement and combat, return to the <a href="./?testlab=1">Guest Test Lab</a>. If this studio reports a missing sprite, that's an asset issue—not a cosmetic you need to unlock. The artwork is derivative noncommercial SpriteCollab fan art; see <a href="./CREDITS.md">artist credits</a>.</p>
+</div>
+</div>
+<script>
+(() => {
+'use strict';
+const META={
+  mewtwo:{
+    prefix:'assets/mega-variants/150/prismatic/',original:'assets/pokemon/150/',pad:16,
+    desc:['Sapphire psychic armor, heavy gauntlets and crown','Opalescent fins, sleek crystal armor and long tail'],
+    name:'Mewtwo',accent:['#8ce9fa','#fa96e1'],
+    animations:{
+      Idle:[32,64,8,15.5,35.5,[40,2,4,6,8,6,4,2]],
+      Walk:[48,56,6,23.5,31.5,[12,6,6,12,6,6]],
+      Attack:[80,88,11,39.5,46.5,[2,3,4,1,1,1,2,2,2,2,2]],
+      Shoot:[56,64,13,27.5,34.5,Array(13).fill(2)],
+      Charge:[32,56,10,16.5,31.5,Array(10).fill(2)],
+      Hurt:[48,72,2,23.5,35.5,[2,8]],
+      Faint:[40,48,4,19.5,27.5,[8,12,4,10]]
+    }
+  },
+  charizard:{
+    prefix:'assets/mega-variants/6/galaxy/',original:'assets/pokemon/6/',pad:14,
+    name:'Charizard',accent:['#84ddfa','#f6a1dc'],
+    desc:['Blue galaxy wings and icy cosmic tail fire','Violet nebula wings and cyan-pink flame'],
+    animations:{
+      Idle:[40,48,4,19.5,27.5,[15,15,15,15]],
+      Walk:[40,48,4,19.5,27.5,[8,10,8,10]],
+      Attack:[80,88,14,39.5,46.5,[2,2,2,2,4,1,1,2,2,2,2,2,2,2]],
+      Shoot:[56,56,11,27.5,30.5,[4,6,2,2,2,2,2,2,2,2,2]],
+      Charge:[48,48,10,24.5,27.5,Array(10).fill(2)],
+      Hurt:[64,64,2,31.5,33.5,[2,8]],
+      Faint:[48,48,4,23.5,27.5,[8,12,4,10]]
+    }
+  }
+};
+const $=id=>document.getElementById(id);
+const scene=(name)=>({name,ctx:$('canvas-'+name).getContext('2d'),status:$('status-'+name),orig:false,image:null,ready:false,error:false,request:0,frame:0,elapsed:0});
+const cards=[scene('x'),scene('y')],cache=new Map();
+const fields=['species','animation','direction','background'].map($);
+const state=()=>({species:$('species').value,anim:$('animation').value,dir:Number($('direction').value),background:$('background').value});
+function getImage(url){
+ if(cache.has(url))return cache.get(url);
+ const record={img:new Image(),ready:false,error:false};
+ cache.set(url,record);
+ record.img.onload=()=>{
+    record.ready=true; record.error=false;record.img.decode?.().catch(()=>{});
+    for(const c of cards)refresh(c);
+ };
+ record.img.onerror=()=>{record.error=true;for(const c of cards)refresh(c);};
+ record.img.src=url;return record;
+}
+function urlFor(c){
+ const s=state(),data=META[s.species];
+ return c.orig?data.original+s.anim+'.png':data.prefix+c.name+'/'+s.anim+'.png';
+}
+function refresh(c){
+ const url=urlFor(c),entry=getImage(url);
+ c.image=entry;
+ c.ready=entry.ready;c.error=entry.error;
+ c.status.className='status '+(entry.error?'fail':entry.ready?'ok':'');
+ c.status.textContent=entry.error?'Missing sprite — check PNG path':entry.ready?
+   (c.orig?'✓ Original animation loaded':'✓ Real Mega PNG loaded'):'Loading animation PNG…';
+}
+function sync(reset=true){
+ const s=state(),d=META[s.species];
+ for(const c of cards){
+   const name=c.name.toUpperCase(),i=c.name==='x'?0:1;
+   $('name-'+c.name).textContent='Mega '+d.name+' '+name;
+   $('desc-'+c.name).textContent=d.desc[i];
+   $('scene-'+c.name).className='scene '+s.background;
+   $('before-'+c.name).textContent=c.orig?'Show Mega '+name:'Show original';
+   if(reset){c.frame=0;c.elapsed=0;}
+   refresh(c);
+ }
+}
+fields.forEach(el=>el.addEventListener('change',()=>{cards.forEach(c=>c.orig=false);sync()}));
+for(const c of cards)$('before-'+c.name).addEventListener('click',()=>{c.orig=!c.orig;sync()});
+function rect(ctx,x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(x,y,w,h);}
+function ground(ctx,s,t){
+ const night=s.background==='night';
+ rect(ctx,0,0,480,440,night?'#233e45':'#416f54');
+ let seed=472910;
+ function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967295;}
+ for(let i=0;i<850;i++){
+   const x=Math.floor(rnd()*480/4)*4,y=Math.floor(rnd()*440/4)*4;
+   const col=night?['#335359','#3a495b','#2a4a52','#725c72']:
+     ['#4b7b5e','#35694f','#568263','#517f54'];
+   rect(ctx,x,y,4+rnd()*3,3+rnd()*3,col[Math.floor(rnd()*col.length)]);
+ }
+ ctx.save();ctx.fillStyle=night?'#758999':'#73936a';ctx.globalAlpha=.18;
+ for(let i=0;i<4;i++){ctx.beginPath();ctx.ellipse(80+i*111,260+(i%2)*60,54,13,0,0,Math.PI*2);ctx.fill();}
+ ctx.restore();
+}
+function glint(ctx,x,y,r,col){
+ ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.beginPath();
+ ctx.moveTo(x-r,y);ctx.lineTo(x+r,y);ctx.moveTo(x,y-r);ctx.lineTo(x,y+r);ctx.stroke();
+}
+function effects(ctx,s,c,t,px,py){
+ const d=META[s.species],isX=c.name==='x',color=d.accent[isX?0:1];
+ if(c.orig)return;
+ ctx.save();
+ ctx.strokeStyle=color;ctx.globalAlpha=.43;ctx.lineWidth=2;
+ ctx.beginPath();ctx.ellipse(px,py+22,90,17,-.11,0,Math.PI*2);ctx.stroke();
+ for(let i=0;i<5;i++){
+   const a=t*.001*(isX?1:-1)+i*Math.PI*2/5;
+   glint(ctx,px+Math.cos(a)*100,py-52+Math.sin(a)*47,
+     3+i%3,i%2?'#f5b7fd':'#baf9ff');
+ }
+ if(s.species==='charizard'){
+   for(let i=0;i<2;i++){
+     const a=t*.00045+i*Math.PI,rr=3+i*2;
+     const x=px+Math.cos(a)*86,y=py+Math.sin(a)*25;
+     ctx.beginPath();ctx.arc(x,y,rr+3,0,Math.PI*2);ctx.fillStyle='#261d61';ctx.fill();
+     ctx.beginPath();ctx.arc(x,y,rr,0,Math.PI*2);ctx.fillStyle=i?'#d09bf4':'#7bf3ff';ctx.fill();
+   }
+ }
+ ctx.restore();
+}
+function drawOne(c,t,delta){
+ const s=state(),d=META[s.species],m=d.animations[s.anim];
+ const ctx=c.ctx;ctx.imageSmoothingEnabled=false;
+ ground(ctx,s,t);
+ const px=240,py=245;
+ ctx.save();
+ ctx.fillStyle='#0d101f';ctx.globalAlpha=.36;ctx.beginPath();
+ ctx.ellipse(px,py+4,56,10,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ if(!c.ready||!c.image||!c.image.ready){
+   ctx.fillStyle='#f5dbe8';ctx.textAlign='center';ctx.font='15px system-ui';
+   ctx.fillText(c.error?'Sprite failed to load':'Loading animation…',240,178);return;
+ }
+ c.elapsed+=delta;
+ if(c.elapsed>m[5][c.frame]*16.6667){
+    c.elapsed=0;c.frame=(c.frame+1)%m[2];
+ }
+ const pad=c.orig?0:d.pad,fw=m[0]+pad*2,fh=m[1]+pad*2;
+ const expectedWidth=fw*m[2],expectedHeight=fh*8;
+ const img=c.image.img;
+ if(img.naturalWidth!==expectedWidth||img.naturalHeight!==expectedHeight){
+   c.status.className='status fail';
+   c.status.textContent='PNG dimensions do not match animation data';
+   ctx.font='13px system-ui';ctx.textAlign='center';ctx.fillStyle='#ffd0ce';
+   ctx.fillText('Animation atlas has incorrect dimensions',240,190);
+   return;
+ }
+ effects(ctx,s,c,t,px,py);
+ // Preserve the entire silhouette, tail and crown even in Attack/Charge
+ // where SpriteCollab frames are larger than the usual Idle frame.
+ const above=m[4]+pad,below=fh-above;
+ const scale=Math.max(1,Math.min(4,Math.floor(464/fw),
+   Math.floor((245-12)/above),Math.floor((440-245-12)/below)));
+ const w=fw*scale,h=fh*scale;
+ const dx=Math.round(px-(m[3]+pad)*scale),dy=Math.round(py-(m[4]+pad)*scale);
+ ctx.drawImage(img,c.frame*fw,s.dir*fh,fw,fh,dx,dy,w,h);
+}
+let last=0;function step(now){
+ const dt=Math.min(40,now-last||16);last=now;
+ for(const c of cards)drawOne(c,now,dt);
+ requestAnimationFrame(step);
+}
+sync();
+requestAnimationFrame(step);
+})();
+</script>
+</body>
+</html>
