@@ -1,0 +1,48 @@
+name: Mega Art Studio and fallback regression
+on:
+  push:
+    branches: [feature/mega-art-preview-polish-v1]
+    paths:
+      - 'classic/mega-showcase.html'
+      - 'classic/js/mods/test-lab.js'
+      - 'classic/js/mods/skin-fx.js'
+      - 'tests/mega-showcase.test.cjs'
+      - '.github/workflows/test-mega-showcase.yml'
+  pull_request:
+    paths:
+      - 'classic/mega-showcase.html'
+      - 'classic/js/mods/test-lab.js'
+      - 'classic/js/mods/skin-fx.js'
+      - 'tests/mega-showcase.test.cjs'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate animation showcase and art-loading behavior
+        run: node tests/mega-showcase.test.cjs
+      - name: Retest complete Classic game extensions
+        run: |
+          node --check classic/js/mods/test-lab.js
+          node --check classic/js/mods/skin-fx.js
+          node tests/prismatic-mega-mewtwo.test.cjs
+          node tests/galaxy-mega-charizard.test.cjs
+          node tests/sprite-atlas.test.cjs
+          node tests/skin-fx.test.cjs
+          node tests/species-art.test.cjs
+          node tests/testlab.test.cjs
+          node tests/mega-evolution.test.cjs
+          node tests/halloween-waves.test.cjs
+      - name: Preserve credit and asset metadata
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from json import loads
+          for dex,style in [(150,'prismatic'),(6,'galaxy')]:
+            m=loads(Path(f'classic/assets/mega-variants/{dex}/{style}/manifest.json').read_text())
+            assert len(m['atlases'])==14
+            assert all(m['atlases'][f'{form}/{anim}']['bytes']>300 for form in ('x','y') for anim in ('Idle','Walk','Attack','Shoot','Charge','Hurt','Faint'))
+          assert Path('classic/CREDITS.md').is_file()
+          assert Path('classic/LICENSE').is_file()
+          print('Both actual Mega pixel sprite atlases and attributions verified')
+          PY
