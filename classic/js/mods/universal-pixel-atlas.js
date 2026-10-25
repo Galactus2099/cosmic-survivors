@@ -63,19 +63,27 @@ function palette(style,x,y,dex,lum){
 function supported(dex,style){
   return FAMILIES.includes(style)&&Number.isInteger(Number(dex))&&!!(window.G&&G.SPRITE_META&&G.SPRITE_META[Number(dex)]&&G.SPRITE_META[Number(dex)].a);
 }
-function pixelize(pixels,width,height,style,dex){
-  if(!PRESETS[style]||!pixels||pixels.length!==width*height*4)throw Error('Invalid cosmetic source buffer');
-  // Recolor ALL opaque silhouette pixels. Transparent pixels remain unchanged.
-  for(let y=0,i=0;y<height;y++){
-    for(let x=0;x<width;x++,i+=4){
-      const a=pixels[i+3];if(a===0)continue;
-      const r=pixels[i],g=pixels[i+1],b=pixels[i+2];
-      const lum=(.2126*r+.7152*g+.0722*b)/255;
+function pixelizeRows(pixels,width,style,dex,start,end){
+  // Render independent strips to keep large sprite atlases from blocking the
+  // game thread while a Pokémon is moving or attacking.
+  for(let y=start;y<end;y++){
+    for(let x=0,i=y*width*4;x<width;x++,i+=4){
+      if(pixels[i+3]===0)continue;
+      const lum=(.2126*pixels[i]+.7152*pixels[i+1]+.0722*pixels[i+2])/255;
       const p=palette(style,x,y,dex,lum);
       pixels[i]=p[0];pixels[i+1]=p[1];pixels[i+2]=p[2];
     }
   }
+}
+function pixelize(pixels,width,height,style,dex){
+  if(!PRESETS[style]||!pixels||pixels.length!==width*height*4)throw Error('Invalid cosmetic source buffer');
+  pixelizeRows(pixels,width,style,dex,0,height);
   return pixels;
+}
+function schedule(fn){
+  if(typeof requestIdleCallback==='function')requestIdleCallback(fn,{timeout:80});
+  else if(typeof setTimeout==='function')setTimeout(fn,0);
+  else fn();
 }
 function entryKey(dex,anim,shiny,skin){return dex+'/'+anim+(shiny?'/s':'')+'/'+skin;}
 function get(dex,anim,shiny,skin){
@@ -97,16 +105,38 @@ function get(dex,anim,shiny,skin){
   can.width=w;can.height=h;
   const ctx=can.getContext&&can.getContext('2d',{willReadFrequently:true});
   if(!ctx||!ctx.getImageData||!ctx.putImageData)return null;
+  let image;
   try{
     ctx.clearRect(0,0,w,h);
     ctx.drawImage(s.img,0,0,w,h);
-    const image=ctx.getImageData(0,0,w,h);
-    pixelize(image.data,w,h,skin,Number(dex));
-    ctx.putImageData(image,0,0);
+    image=ctx.getImageData(0,0,w,h);
   }catch(_){failures++;return null;} // SecurityErrors / memory: legacy renderer continues.
-  const item={canvas:can,source:s.img,meta};
-  CACHE.set(key,item);created++;
+  const item={canvas:can,source:s.img,meta,ready:false};
+  CACHE.set(key,item);
   while(CACHE.size>MAX_CACHE)CACHE.delete(CACHE.keys().next().value);
+  const finish=()=>{
+    if(CACHE.get(key)!==item)return;
+    try{ctx.putImageData(image,0,0);item.ready=true;image=null;created++;}
+    catch(_){CACHE.delete(key);failures++;}
+  };
+  if(w*h>110_000&&typeof setTimeout==='function'){
+    // < 11k source pixels per background task. The old renderer remains
+    // playable until all body pixels have been safely processed.
+    const rows=Math.max(1,Math.floor(10_000/w));let y=0;
+    const batch=()=>{
+      if(CACHE.get(key)!==item)return;
+      try{
+        const stop=Math.min(h,y+rows);
+        pixelizeRows(image.data,w,skin,Number(dex),y,stop);
+        y=stop;
+        if(y<h)schedule(batch);else finish();
+      }catch(_){CACHE.delete(key);failures++;}
+    };
+    schedule(batch);
+  }else{
+    try{pixelize(image.data,w,h,skin,Number(dex));finish();}
+    catch(_){CACHE.delete(key);failures++;return null;}
+  }
   return item;
 }
 function draw(ctx,anim,x,y,opts,skin){
@@ -115,7 +145,7 @@ function draw(ctx,anim,x,y,opts,skin){
   if(!supported(anim.dex,style))return false;
   const sprites=window.G&&G.Sprites;
   const item=get(anim.dex,anim.cur,anim.shiny,style);
-  if(!item)return false;
+  if(!item||!item.ready)return false;
   const m=item.meta,k=sprites.PX*anim.scale;
   if(!Number.isFinite(k)||k<=0)return false;
   const col=Math.max(0,Math.min(m.n-1,Math.floor(Number(anim.frame)||0)));
@@ -145,7 +175,7 @@ window.CosmicUniversalAtlas={
   coverage(){
     const meta=window.G&&G.SPRITE_META||{},dexes=Object.keys(meta).filter(k=>meta[k]&&meta[k].a);
     return {species:dexes.length,materials:FAMILIES.length,possibleLooks:dexes.length*FAMILIES.length,
-      cache:CACHE.size,hits,misses,created,failures,mode:'generated-on-demand'};
+      cache:CACHE.size,pending:[...CACHE.values()].filter(e=>!e.ready).length,hits,misses,created,failures,mode:'generated-on-demand'};
   }
 };
 })();
